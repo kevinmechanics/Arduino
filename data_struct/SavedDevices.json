@@ -1,0 +1,12 @@
+[
+    {
+        "id":1,
+        "location":"Brgy. Sta Fe",
+        "city":"Dasmarinas City"
+    },
+    {
+        "id":2,
+        "location":"Brgy. Commonwealth",
+        "city":"Quezon City"
+    }
+]

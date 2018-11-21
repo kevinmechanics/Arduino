@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" href="assets/materialize/css/materialize.css">
         <link rel="stylesheet" type="text/css" href="assets/iconfont/material-icons.css">
-        <link rel="stylesheet" type="text/css" href="assets/monserrat/icon.css">
+        <link rel="stylesheet" type="text/css" href="assets/montserrat/icon.css">
         <link rel="stylesheet" type="text/css" href="assets/style.css">
         <script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="assets/materialize/js/materialize.min.js"></script>
@@ -18,12 +18,13 @@
 
         <nav class='navbar white z-depth-0'>
             <div class="left"></div>
-            <div class="right" style="margin-right:1.5%">
+            <div class="right" style="margin-right:5%">
                 <a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons grey-text text-darken-2">more_vert</i></a>
             </div>
 
             <ul id='dropdown1' class='dropdown-content'>
-                <li><a href="https://goo.gl/forms/YOQelHn2ATyPdzx42">Report a Problem</a></li>
+                <li><a href="https://goo.gl/forms/YOQelHn2ATyPdzx42" class="black-text">Report a Problem</a></li>
+                <li><a href="main.html" class="black-text">Main</a></li>
             </ul>
 
         </nav>
@@ -82,7 +83,7 @@
                             <label for="password">Password</label>
                         </div>
                         <br>
-                        <p><font size="-2" class="grey-text">By continuing, you agree to our <a href="index.html">Terms and Conditions</a> and Privacy Policy.</font></p>
+                        <p><font size="-2" class="grey-text">By continuing, you agree to our <a class="modal-trigger" href="#termsconditions">Terms and Conditions</a> and <a class="modal-trigger" href="#privacypolicy">Privacy Policy</a>.</font></p>
                     </div>
 
                 </center>
@@ -122,9 +123,9 @@
                             <label for="password">Password</label>
                         </div>
                         <br>
-                        <p><font size="-2" class="grey-text">By continuing, you agree to our Terms and Conditions and Privacy Policy.</font></p>
+                        <p><font size="-2" class="grey-text">By continuing, you agree to our <a class="modal-trigger" href="#termsconditions">Terms and Conditions</a> and <a class="modal-trigger" href="#privacypolicy">Privacy Policy</a>.</font></p>
                         <br><br>
-                        <a class="btn btn-medium blue darken-2 waves-effect right z-depth-0" style="border-radius:4px">Register</a>
+                        <a class="btn btn-medium blue darken-2 waves-effect right z-depth-0" style="border-radius:4px" onclick="register()">Register</a>
                         <a class="btn btn-medium btn-flat transparent right z-depth-0" style="border-radius:4px" onclick="showActivity('account')">Sign In</a>
                         <br><br>
                     </div>
@@ -134,6 +135,30 @@
             </div>
         </div>
         <!-- .register -->
+
+        <!-- terms and conditions modal -->
+        <div id="termsconditions" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Terms and Conditions</h4>
+                <p>Terms and Conditions</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+        </div>
+        <!-- .terms and conditions modal -->
+
+        <!-- privacy policy modal -->
+        <div id="privacypolicy" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Privacy Policy</h4>
+                <p>Privacy Policy</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+        </div>
+        <!-- .privacy policy modal -->
 
 
     </body>

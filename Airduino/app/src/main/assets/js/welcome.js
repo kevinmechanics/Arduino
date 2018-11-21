@@ -1,10 +1,22 @@
 $(document).ready(()=>{
+    loginCheck();
+
     $('.dropdown-trigger').dropdown();
+    $('.modal').modal();
 
     clear();
     $(".splashscreen").fadeOut();
     showActivity("welcome");
 });
+
+var loginCheck = ()=>{
+    if(localStorage.getItem('airduino-loggedin')){
+        var li = localStorage.getItem('airduino-loggedin');
+        if(li == 'true') {
+            location.replace('main.html');
+        } 
+    }
+};
 
 var clear = ()=>{
     $(".activity").hide();
