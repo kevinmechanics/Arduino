@@ -236,10 +236,22 @@ var launchTemperature = (id)=>{
     }
 };
 
-var launchHumidity = ()=>{
-    hideNavbar();
-    hideBottombar();
-    showWindowedBar();
-    showActivity('humidity');
-    $('html,body').animate({scrollTop:0},'medium');
+var launchHumidity = (id)=>{
+    try {
+
+        var device = getSavedDeviceInfo(id);
+        var result = getTemperatureObject();
+
+        $("#Hlocation").html(device.location);
+        $("#Hcity").html(device.city);
+
+        hideNavbar();
+        hideBottombar();
+        showWindowedBar();
+        showActivity('humidity');
+        $('html,body').animate({scrollTop:0},'medium');
+    } catch(error){
+        M.toast({html:"Cannot load humidity",durationLength:3000});
+        console.log(error);
+    }
 }
