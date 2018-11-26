@@ -66,7 +66,7 @@
                     <h3>Good Day <span class="first_name">User</span></h3>
                     <br><br>
                     <div id="homeEmptyDevices">
-                        <a href="#!" class="circle_button"><i class="material-icons">add</i></a>
+                        <a href="#!" onclick="launchAddStation();"class="circle_button"><i class="material-icons">add</i></a>
                         <br><br><br>
                         <p>You haven't added any Airduino weather station yet.<br>Add one to get started.</p>
                     </div>
@@ -86,6 +86,21 @@
         </div>
         <!-- .home -->
 
+		<!-- newsfeed -->
+		<div class="activity" id="newsfeedActivity">
+			<div class="content" style="margin-left:5%; margin-right:5%">
+				<center>
+                    <br>
+                    <h4>Alerts Feed</h4><br><br>
+                </center>
+				<div id="newsfeedList">
+					<center><p>No Alerts Yet</p></center>
+				</div>
+				<br><br><br><br><br><br><br>
+			</div>
+		</div>
+		<!-- .newsfeed -->
+
         <!-- account -->
         <div class="activity" id="accountActivity">
             <div class="content">
@@ -101,13 +116,13 @@
                         </p>
                     </li>
                     <li class="collection-item">
-                        <a href="#!" class="grey-text text-darken-1">
-                            <i class="material-icons" style="margin-right:10px;">add</i> <span>Add a Weather Station</span>
+                        <a href="#!" class="grey-text text-darken-1" onclick="launchAddStation();">
+                            <i class="material-icons" style="margin-right:10px;">add</i> <span>Add an Airduino Station</span>
                         </a>
                     </li>
                     <li class="collection-item">
                         <a href="#!" class="grey-text text-darken-1">
-                            <i class="material-icons" style="margin-right:10px;">list</i> <span>Saved Weather Stations</span>
+                            <i class="material-icons" style="margin-right:10px;">list</i> <span>Saved Airduino Stations</span>
                         </a>
                     </li>
                     <li class="collection-item">
@@ -128,7 +143,7 @@
                 </ul>
                 <br>
                 <center style="margin-left:20px; margin-right:20px">
-                    <p style="font-size:-2;"><a class="modal-trigger" href="#termsconditions">Terms and Conditions</a> | <a class="modal-trigger" href="#privacypolicy">Privacy Policy</a></p>
+                    <p style="font-size:-2;"><a class="modal-trigger blue-grey-text" href="#termsconditions">Terms and Conditions</a> | <a class="modal-trigger blue-grey-text" href="#privacypolicy">Privacy Policy</a></p>
                 </center>
 
                 <br><br><br><br><br><br><br>
@@ -140,6 +155,8 @@
         <div class="activity" id="temperatureActivity">
             <div class="content">
                 <center>
+					<div class="card-title">Temperature</div>
+					<br><br>
                     <h5 id="Tlocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Tcity">Dasmarinas City</p>
                     <p class="blue-text text-darken-2" style="font-size:50pt !important; margin:0px;" id="Ttemperature"><b>50°C</b></p>
@@ -222,9 +239,11 @@
         <div class="activity" id="humidityActivity">
             <div class="content">
                 <center>
-                    <h5 id="Tlocation">Brgy. Sta Fe</h5>
+					<div class="card-title">Humidity</div>
+					<br><br>
+                    <h5 id="Hlocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Hcity">Dasmarinas City</p>
-                    <p class="blue-text text-darken-2" style="font-size:50pt !important; margin:0px;" id="Htemperature"><b>50°C</b></p>
+                    <p class="blue-text text-darken-2" style="font-size:50pt !important; margin:0px;" id="Hpercentage"><b>50%</b></p>
                     <p class="grey-text">As of <span id="Tdatetime">Nov 20 4:55 PM</span></p>
                 </center>
                 <br>
@@ -254,8 +273,8 @@
                     </div>
                 </div>
 
-                <!-- temp export modal -->
-                <div class="modal modal-fixed-footer" id="Texport">
+                <!-- humidity export modal -->
+                <div class="modal modal-fixed-footer" id="Hexport">
                     <div class="modal-content">
                         <h5>Export</h5>
                         <br>
@@ -272,7 +291,7 @@
                         <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                     </div>
                 </div>
-                <!-- temp export modal -->
+                <!-- humidity export modal -->
 
                 <script>
                     new Chart(
@@ -295,17 +314,112 @@
                         }
                     );
                 </script>
-            <br><br><br><br><br>
-        </div>
+            	<br><br><br><br><br>
+        	</div>
         </div>
         <!-- .humidity -->
+
+		<!-- air quality -->
+		<div class="activity" id="airqualityActivity">
+            <div class="content">
+                <center>
+					<div class="card-title">Air Quality</div>
+					<br><br>
+                    <h5 id="Alocation">Brgy. Sta Fe</h5>
+                    <p class="grey-text" id="Acity">Dasmarinas City</p>
+                    <p class="blue-text text-darken-2" style="font-size:35pt !important; margin:0px;" id="Aquality"><b>Moderate <br>30 PPM</b></p>
+                    <p class="grey-text">As of <span id="Adatetime">Nov 20 4:55 PM</span></p>
+                </center>
+                <br>
+                <br>
+                <div style="margin-left:20px !important;margin-right:20px !important">
+                    <div class="card">
+                        <div class="card-content">
+                            <center><span class="card-title">Chart</span></center><br>
+                            <canvas id="Achart" width="50px" height="30px"></canvas>
+                        </div>
+                        <div class="card-action" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+                            <a href="#Aexport" class="modal-trigger grey-text text-darken-2">Export</a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-content">
+                            <center><span class="card-title">Previous 50 Record</span></center><br>
+                            <br>
+                            <ul class="collection" id="Ahistory">
+                                <li class="collection-item">
+                                    <p>50°C</p>
+                                    <p style="font-size:8pt;" class="grey-text">Nov 18, 2018 at 5:26 PM</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- temp export modal -->
+                <div class="modal modal-fixed-footer" id="Aexport">
+                    <div class="modal-content">
+                        <h5>Export</h5>
+                        <br>
+                        <ul class="collection">
+                            <li class="collection-item">
+                                <a href="#!">CSV</a>
+                            </li>
+                            <li class="collection-item">
+                                <a href="#!">Excel (XLSX)</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+                    </div>
+                </div>
+                <!-- temp export modal -->
+
+                <script>
+                    new Chart(
+                        document.getElementById("Achart"),{
+                            "type":"line",
+                            "data":{
+                                "labels":
+                                    ["5:00","5:15","5:30","6:00","6:30","7:00"],
+                                "datasets":
+                                [
+                                    {
+                                        "label":"Air Quality","data":[30,25,32,35,28,30],
+                                        "fill":false,
+                                        "borderColor":"#1e88e5",
+                                        "lineTension":0.01
+                                    }
+                                ]
+                            },
+                            "options":{}
+                        }
+                    );
+                </script>
+                <br><br><br><br><br>
+            </div>
+        </div>
+		<!-- .air quality -->
+
+		<!-- addstation activity -->
+		<div class="activity" id="addstationActivity">
+			<div class="content" style="margin-left:5%; margin-right:5%">
+				<center>
+                    <br>
+                    <h4>Choose an Airduino Station</h4><br><br>
+                </center>
+			</div>
+		</div>
+		<!-- .addstation activity -->
 
         <!-- bottombar -->
         <div class="bottombar">
             <div class="col s12">
                 <ul class="tabs tabs-fixed-width">
                     <li class="tab col s3"><a href="#" onclick="showActivity('home');"><i class="material-icons grey-text text-darken-2">home</i></a></li>
-                    <li class="tab col s3"><a href="#" onclick="showActivity('home');"><i class="material-icons grey-text text-darken-2">comment</i></a></li>
+                    <li class="tab col s3"><a href="#" onclick="showActivity('newsfeed');"><i class="material-icons grey-text text-darken-2">comment</i></a></li>
                     <li class="tab col s3"><a href="#" onclick="showActivity('account')"><i class="material-icons grey-text text-darken-2">account_circle</i></a></li>
                 </ul>
             </div>

@@ -7,6 +7,7 @@ $(document).ready(function(){
     hideWindowedBar();
     clear();
     $(".splashscreen").fadeOut();
+	setupNewsFeed();
     prepareAccount();
     prepareHome();
 
@@ -26,7 +27,7 @@ var loginCheck = ()=>{
 
 // activity
 var clear = ()=>{ $(".activity").hide(); };
-var showActivity = (actName)=>{ clear(); $(`#${actName}Activity`).fadeIn(); };
+var showActivity = (actName)=>{ clear(); $(`#${actName}Activity`).fadeIn(); $('html,body').animate({scrollTop:0},'fast'); };
 
 // navbar
 var hideNavbar = ()=>{ $("#regularNavbar").hide(); };
@@ -159,10 +160,12 @@ var prepareHome = ()=>{
                             </a>
                         </div>
                         <div class="col s4">
-                            <div class="circle_button_small blue lighten-2" style="border:0px;">
-                                <i class="material-icons white-text">tonality</i>
-                            </div>
-                            <p class="grey-text darken-1">Air Quality</p>
+							<a href="#!" onclick="launchAirQuality('${element.id}');">
+								<div class="circle_button_small blue lighten-2" style="border:0px;">
+									<i class="material-icons white-text">tonality</i>
+								</div>
+								<p class="grey-text darken-1">Air Quality</p>
+							</a>
                         </div>
                     </div>
                     
@@ -254,4 +257,82 @@ var launchHumidity = (id)=>{
         M.toast({html:"Cannot load humidity",durationLength:3000});
         console.log(error);
     }
-}
+};
+
+var launchAirQuality = (id)=>{
+	try {
+
+        var device = getSavedDeviceInfo(id);
+        var result = getTemperatureObject();
+
+        $("#Alocation").html(device.location);
+        $("#Acity").html(device.city);
+
+        hideNavbar();
+        hideBottombar();
+        showWindowedBar();
+        showActivity('airquality');
+        $('html,body').animate({scrollTop:0},'medium');
+    } catch(error){
+        M.toast({html:"Cannot load air quality",durationLength:3000});
+        console.log(error);
+    }
+};
+
+var setupNewsFeed = ()=>{
+	var emptyFeed = `<center><p>No Alerts Yet</p></center>`;
+	var populate = ()=>{
+		$("#newsfeedList").html("");
+		if(localStorage.getItem('airduino-newsfeed')){
+			var entries = JSON.parse(localStorage.getItem('airduino-newsfeed'));
+			if(entries != []){
+				entries.forEach(element=>{
+					var tpl =  `
+							<div class="card">
+								<div class="card-content">
+									<h5>${element.title}</h5>
+									<p>${element.content}</p>
+									<p style="font-size:8pt;" class="grey-text">${element.timestamp_created}</p>
+								</div>
+						</div>`;
+					$("#newsfeedList").append(tpl);
+				});
+			} else {
+				$("#newsfeedList").html(emptyFeed);
+			}
+			
+		} else {
+			$("#newsfeedList").html(emptyFeed);
+		}
+
+	};
+	
+	try {
+		if(navigator.onLine){
+			$.ajax({
+				type:"GET",
+				url: "sample.html",
+				cache: 'false',
+				success: result=>{
+					localStorage.setItem("airduino-newsfeed", JSON.stringify(result));
+					populate();
+				}
+			}).fail(()=>{
+				populate();
+			});
+		} else {
+			populate();
+		}
+	} catch(error) {
+		console.log(error);
+		populate();
+	}
+};
+
+var launchAddStation = ()=>{
+	clear();
+	hideNavbar();
+	hideBottombar();
+	showWindowedBar();
+	showActivity('addstation');
+};
