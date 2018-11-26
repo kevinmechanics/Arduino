@@ -27,7 +27,7 @@ if($AdminObject){
 		</nav>
 		<div>
 			<div class="row">
-				<div class="col s4">
+				<div class="col s2">
 					<h4>Navigation</h4>
 					<ul class="collection">
 						<li class="collection-item">
@@ -53,7 +53,7 @@ if($AdminObject){
 						</li>
 					</ul>
 				</div>
-				<div class="col s8">
+				<div class="col s10">
 					<h3>Admins</h3> <a href="/admin/admins_add.php" class="btn btn_small">Add</a>
 					<table>
 						<thead>

@@ -27,7 +27,7 @@ if($AdminObject){
 		</nav>
 		<div>
 			<div class="row">
-				<div class="col s4">
+				<div class="col s2">
 					<h4>Navigation</h4>
 					<ul class="collection">
 						<li class="collection-item">
@@ -53,10 +53,10 @@ if($AdminObject){
 						</li>
 					</ul>
 				</div>
-				<div class="col s8">
+				<div class="col s10">
 					<h3>Admins > Add</h3> <a href="/admin/admins.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form method="POST" action="">
+					<form method="POST" action="../api/admin/add.php">
 						<input type="text" name="name" placeholder="Name" style="width:60%">
 						<input type="text" name="username" placeholder="Username" style="width:60%">
 						<input type="password" name="password" placeholder="Password" style="width:60%">

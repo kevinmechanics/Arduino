@@ -2,15 +2,15 @@
 Maximized=1
 Geometry=1024x709+0+0
 
-[File Loader]
-Files=../../server/src/admin/devices.php#42%%%../../server/src/admin/styles/style.css#4
-
-[Document Manager]
-bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
-
 [Execution]
 Run in terminal=2
 Working directories=../../.
+
+[File Loader]
+Files=../../server/src/admin/alerts_add.php#59%%%../../server/src/admin/devices_add.php#59%%%../../server/src/admin/admins_add.php#59%%%../../server/src/class/User.class.php#152%%%../../server/src/class/Admin.class.php#156%%%../../server/src/index.php#20%%%../../server/src/admin/index.php#1
+
+[Document Manager]
+bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
 
 [Project Manager]
 Expand=Arduino%%%Arduino//server%%%Arduino//server//src%%%Arduino//server//src//admin
