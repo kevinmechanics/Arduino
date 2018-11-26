@@ -54,13 +54,11 @@ if($AdminObject){
 					</ul>
 				</div>
 				<div class="col s8">
-					<h3>Devices > Add</h3> <a href="/admin/devices.php" class="btn btn_small">Back</a>
+					<h3>Alerts > Add</h3> <a href="/admin/devices.php" class="btn btn_small">Back</a>
 					<br><br>
 					<form method="POST" action="">
-						<input type="text" name="device_id" placeholder="Device ID" style="width:60%">
-						<input type="text" name="location" placeholder="Location" style="width:60%">
-						<input type="text" name="city" placeholder="City" style="width:60%">
-						<input type="text" name="mobile_number" placeholder="Mobile Number" style="width:60%">
+						<input type="text" name="title" placeholder="Title" style="width:60%">
+						<textarea name="content" placeholder="Content" style="width:60%"></textarea>
 						<br><br>
 						<button type="submit" class="btn">Add</button>
 					</form>

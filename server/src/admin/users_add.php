@@ -56,7 +56,7 @@ if($AdminObject){
 				<div class="col s8">
 					<h3>Users > Add</h3> <a href="/admin/users.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form>
+					<form method="POST" action="">
 						<input type="text" name="first_name" placeholder="First Name" style="width:60%">
 						<input type="text" name="last_name" placeholder="Last Name" style="width:60%">
 						<input type="text" name="username" placeholder="Username" style="width:60%">

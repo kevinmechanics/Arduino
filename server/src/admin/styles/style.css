@@ -1033,6 +1033,18 @@ input {
 	margin-bottom:10px; 
 }
 
+textarea {
+	padding-left: 15px;
+	padding-right:15px;
+	padding-top:20px;
+	padding-bottom:20px;
+	background-color:#BBDEFB;
+	border:none;	
+	border-radius:20px;
+	margin-bottom:10px; 
+
+}
+
 .btn {
 	background-color:#2196F3;
 	border:none;
