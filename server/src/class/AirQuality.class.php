@@ -86,7 +86,7 @@ class AirQuality {
 		$this->time = $array['time'];
 		
 		$stmt = $this->mysqli->prepare("UPDATE `air_quality` SET `device_id`=?,`value`=?,`description`=?,`month`=?,`day`=?,`year`=?,`time`=?  WHERE `id`=? LIMIT 1");
-		$stmt->bind_param("ssssssi",$this->device_id,$this->value,$this->description=?,$this->month,$this->day,$this->year,$this->time,$this->id);
+		$stmt->bind_param("ssssssi",$this->device_id,$this->value,$this->description,$this->month,$this->day,$this->year,$this->time,$this->id);
 		
 		if($stmt->execute()){
 			return True;

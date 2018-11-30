@@ -59,7 +59,11 @@ class User {
 			);
 		}
 		
-		return $array;
+		if($array == Array()){
+			return False;
+		} else {
+			return $array;
+		}
 	}
 	
 	public function delete(Int $id){
@@ -83,7 +87,7 @@ class User {
         $hash_password = password_hash($this->password,PASSWORD_DEFAULT);
 
         $stmt = $this->mysqli->prepare("INSERT INTO `user`(`first_name`,`last_name`,`username`,`password`) VALUES(?,?,?,?)");
-        $stmt->bind_param("sss",$this->first_name,$this->last_name,$this->username,$hash_password);
+        $stmt->bind_param("ssss",$this->first_name,$this->last_name,$this->username,$hash_password);
 
         if($stmt->execute()){
             return True;
@@ -143,15 +147,20 @@ class User {
         $result = $this->getByUsername($this->username);
 
         if(empty($result)){
-            return False;
+            return "User not registered";
         } else {
-            $hash_password = $result['password'];
+			if($result == False){
+				return "User not registered";
+			} else {
+				$hash_password = $result['password'];
 
-            if(password_verify($this->password, $hash_password)){
-                return True;
-            } else {
-                return False;
-            }
+				if(password_verify($this->password, $hash_password)){
+					return True;
+				} else {
+					return "Password is Incorrect";
+				}
+	
+			}
         }
 
     }

@@ -39,6 +39,14 @@ public class MainActivity extends Activity {
         // Hide the scroll bar
         mWebView.setVerticalScrollBarEnabled(false);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // chromium, enable hardware acceleration
+            mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else {
+            // older android version, disable hardware acceleration
+            mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+
         // Manipulate settings
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -50,6 +58,9 @@ public class MainActivity extends Activity {
 
         // Stop local links and redirects from, opening in browsser instead of WebView
         mWebView.setWebViewClient(new MyAppWebViewClient());
+
+        // Toast
+        mWebView.addJavascriptInterface(new WebAppInterface(this),"Android");
 
         // Load the page when no internet
         mWebView.setWebViewClient(new WebViewClient(){

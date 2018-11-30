@@ -14,6 +14,18 @@ $(document).ready(function(){
     showActivity("home");
 });
 
+var showToast = (msg)=>{
+    try {
+        Android.showToast(msg);
+    } catch(error){
+        console.log({
+            "Message":"Cannot fire up native toast. You might be debugging in a web browser.",
+            "Content":msg
+        });
+        M.toast({html:msg,durationLength:2000});
+    }
+};
+
 var loginCheck = ()=>{
     if(localStorage.getItem('airduino-loggedin')){
         var li = localStorage.getItem('airduino-loggedin');
@@ -24,6 +36,7 @@ var loginCheck = ()=>{
         location.replace('welcome.html');
     }
 };
+
 
 // activity
 var clear = ()=>{ $(".activity").hide(); };
@@ -101,8 +114,8 @@ var prepareAccount = ()=>{
 }
 
 var prepareHome = ()=>{
-    //var savedDevices = getSavedDevices();
-    var savedDevices = [
+    var savedDevices = getSavedDevices();
+    /*var savedDevices = [
         {
             "id":1,
             "location":"Brgy. Sta Fe",
@@ -113,7 +126,8 @@ var prepareHome = ()=>{
             "location":"Brgy. Commonwealth",
             "city":"Quezon City"
         }
-    ];
+    ];*/
+
     if(savedDevices == ""){
         $("#homeDevices").hide();
         $("#homeEmptyDevices").show();
@@ -192,49 +206,104 @@ var getSavedDeviceInfo = (id)=>{
 
 var getTemperatureObject = (id)=>{
 
-    if(navigator.onLine){
-        $.ajax({
-            type:'GET',
-            url:'sample.html',
-            data: {
-                device_id:id
-            },
-            success: result=>{
-                localStorage[`airduino-temperature-${id}`] = JSON.stringify(result);
-                return JSON.parse(result);
-            }
-        }).fail(()=>{
-            if(localStorage[`airduino-temperature-${id}`]){
-                return JSON.parse(localStorage[`airduino-temperature-${id}`]);
-            } else {
-                return [];
-            }
-        });
-    } else {
-        if(localStorage[`airduino-temperature-${id}`]){
-            return JSON.parse(localStorage[`airduino-temperature-${id}`]);
-        } else {
-            return [];
+    $.ajax({
+        type:'GET',
+        url:'http://localhost/api/temperature/getLastFifty.php',
+        data: {
+            device_id:id
+        },
+        success: result=>{
+            result = JSON.parse(result);
+            localStorage.setItem(`airduino-temperature-${id}`,JSON.stringify(result));
         }
-    }
+    }).fail((error)=>{            
+        console.log(error);
+    });
     
 }
 
 var launchTemperature = (id)=>{
     try {
         var device = getSavedDeviceInfo(id);
-        var result = getTemperatureObject();
+        getTemperatureObject(device.device_id);
 
-        $("#Tlocation").html(device.location);
-        $("#Tcity").html(device.city);
+        var result = localStorage.getItem(`airduino-temperature-${device.device_id}`);
 
-        hideNavbar();
-        hideBottombar();
-        showWindowedBar();
-        showActivity("temperature");
-        $('html,body').animate({scrollTop:0},'medium');
+        try {
+            result = JSON.parse(result);
+            $("#Tlocation").html(device.location);
+            $("#Tcity").html(device.city);
+    
+            var latest = result[result.length - 1];
+    
+            var ts = new Date(latest.timestamp);
+            ts = `${ts.toDateString()} (${ts.toLocaleTimeString()})`;
+    
+    
+            $("#Ttemperature").html(`${latest.value}°C`);
+            $("#Tdatetime").html(ts);
+    
+            var time_labels = [];
+            var temp_data = [];
+    
+            $("#Thistory").html("");
+            
+            var resultSlice = result.slice(45);
+            resultSlice.forEach(element=>{
+                var date = new Date(element.timestamp);
+                var time = date.toLocaleTimeString();
+                time_labels.push(time);
+    
+                temp_data.push(element.value);
+            });
+    
+            result = result.slice(40);
+            result.forEach(element=>{
+                var date = new Date(element.timestamp);
+    
+                var tpl = `
+                    <li class="collection-item">
+                        <p>${element.value}°C</p>
+                        <p style="font-size:8pt;" class="grey-text">${date.toDateString()} - ${date.toLocaleTimeString()}</p>
+                    </li>
+                `;
+    
+                $("#Thistory").append(tpl);
+    
+            });
+    
+            new Chart(
+                document.getElementById("Tchart"),{
+                    "type":"line",
+                    "data":{
+                        "labels":time_labels,
+                        "datasets":
+                        [
+                            {
+                                "label":"Temperature","data":temp_data,
+                                "fill":false,
+                                "borderColor":"#1e88e5",
+                                "lineTension":0.01
+                            }
+                        ]
+                    },
+                    "options":{}
+                }
+            );
+    
+            hideNavbar();
+            hideBottombar();
+            showWindowedBar();
+            showActivity("temperature");
+            $('html,body').animate({scrollTop:0},'medium');
+    
+
+        } catch(e){
+            showToast("No available data yet");
+        }
+
     } catch (error) {
-        M.toast({html:"Cannot load temperature",durationLength:3000});
+        showToast("Cannot load temperature");
         console.log(error);
     }
 };
@@ -254,7 +323,7 @@ var launchHumidity = (id)=>{
         showActivity('humidity');
         $('html,body').animate({scrollTop:0},'medium');
     } catch(error){
-        M.toast({html:"Cannot load humidity",durationLength:3000});
+        showToast("Cannot load humidity");
         console.log(error);
     }
 };
@@ -274,7 +343,7 @@ var launchAirQuality = (id)=>{
         showActivity('airquality');
         $('html,body').animate({scrollTop:0},'medium');
     } catch(error){
-        M.toast({html:"Cannot load air quality",durationLength:3000});
+        showToast("Cannot load air quality");
         console.log(error);
     }
 };
@@ -284,14 +353,15 @@ var setupNewsFeed = ()=>{
 	var populate = ()=>{
 		$("#newsfeedList").html("");
 		if(localStorage.getItem('airduino-newsfeed')){
-			var entries = JSON.parse(localStorage.getItem('airduino-newsfeed'));
+            var entries = JSON.parse(localStorage.getItem('airduino-newsfeed'));
+            var entries = entries.reverse();
 			if(entries != []){
 				entries.forEach(element=>{
 					var tpl =  `
 							<div class="card">
 								<div class="card-content">
 									<h5>${element.title}</h5>
-									<p>${element.content}</p>
+									<p>${element.content}</p><br>
 									<p style="font-size:8pt;" class="grey-text">${element.timestamp_created}</p>
 								</div>
 						</div>`;
@@ -308,16 +378,18 @@ var setupNewsFeed = ()=>{
 	};
 	
 	try {
+        
 		if(navigator.onLine){
 			$.ajax({
 				type:"GET",
-				url: "sample.html",
+				url: "http://192.168.43.137/api/newsfeed/getAll.php",
 				cache: 'false',
 				success: result=>{
-					localStorage.setItem("airduino-newsfeed", JSON.stringify(result));
+					localStorage.setItem("airduino-newsfeed", result);
 					populate();
 				}
-			}).fail(()=>{
+			}).fail((error)=>{
+                console.log(error);
 				populate();
 			});
 		} else {
@@ -330,9 +402,78 @@ var setupNewsFeed = ()=>{
 };
 
 var launchAddStation = ()=>{
-	clear();
-	hideNavbar();
-	hideBottombar();
-	showWindowedBar();
-	showActivity('addstation');
+    showPreloader();
+
+    if(navigator.onLine){
+
+        $("#addStationList").html("");
+
+        $.ajax({
+            type:"GET",
+            cache:"false",
+            url:"http://192.168.43.137/api/device/getAll.php",
+            success: result=>{
+                var result = JSON.parse(result);
+                result.forEach(element=>{
+                    if(!getSavedDeviceInfo(element.id)){
+
+                        var ls = JSON.stringify(element);
+                        
+                        var colors = ["red", "blue-grey", "green", "blue", "orange"];
+                        var randColor = colors[Math.floor(Math.random()*colors.length)];
+
+                        var tpl = `
+                            <div class="card ${randColor} darken-2 white-text" style="box-shadow: 0 20px 40px rgba(92, 92, 92, 0.3);">
+                                <div class="card-content">
+                                    <h5>${element.location}</h5>
+                                    <p>${element.city}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="#!" id="StationAdd${element.id}" class="white-text">Add</a>
+                                </div>
+                            </div>
+                            <script>
+                                $("#StationAdd${element.id}").click(()=>{
+                                    addSavedStation('${ls}');
+                                    prepareHome();
+                                    showBottombar();
+                                    hideWindowedBar();
+                                    showNavbar();
+                                    showActivity("home");
+                                    showToast("Added ${element.location} to saved stations");
+                                });
+                            </script>
+                        `;
+                        $("#addStationList").append(tpl);
+
+                    }
+                    
+                });
+
+                var asl = $("#addStationList").html();
+                if(!asl){
+                    var tpl = `
+                        <center><p>No new Airduino stations available yet.</p></center>
+                    `;
+                    $("#addStationList").html(tpl);
+                }
+
+                clear();
+                hideNavbar();
+                hideBottombar();
+                showWindowedBar();
+                showActivity('addstation');
+                
+            }
+        }).fail(()=>{
+            showToast("Cannot open stations list");
+            hidePreloader();
+            showActivity("home");                
+        });
+
+    } else {
+        showToast("Offline. Cannot open stations list.");
+        hidePreloader();
+        showActivity("home");
+    }
 };
