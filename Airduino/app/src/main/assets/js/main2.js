@@ -83,7 +83,7 @@ var editAccount = ()=>{
                 $.ajax({
                     type:"POST",
                     cache:'false',
-                    url:"http://192.168.43.137/api/user/editAccount.php",
+                    url:"http://airduino-ph.000webhostapp.com/api/user/editAccount.php",
                     data: {
                         id:i,
                         first_name:fn,

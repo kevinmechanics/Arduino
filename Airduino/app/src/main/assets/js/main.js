@@ -24,6 +24,13 @@ $(document).ready(function(){
 
     showActivity("home");
 
+    setInterval(()=>{
+        getTemperatureObject(element.device_id);
+        getHumidityObject(element.device_id);
+        getAirQualityObject(element.device_id);
+        prepareHome();
+    },120000);
+
 });
 
 var showToast = (msg)=>{
@@ -154,9 +161,15 @@ var prepareHome = ()=>{
 
                 try {
 
+                    getTemperatureObject(element.device_id);
+                    getHumidityObject(element.device_id);
+                    getAirQualityObject(element.device_id);
+
                     var temp = JSON.parse(localStorage.getItem(`airduino-temperature-${element.device_id}`));
                     var hum = JSON.parse(localStorage.getItem(`airduino-humidity-${element.device_id}`));
-                    var air = JSON.parse(localStorage.getItem(`airduino-airquality-${element.device_id}`));    
+                    var air = JSON.parse(localStorage.getItem(`airduino-airquality-${element.device_id}`));
+
+                    console.log(hum);
 
                     temp = temp[temp.length - 1];
                     hum = hum[hum.length - 1];
@@ -275,7 +288,7 @@ var getTemperatureObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://192.168.43.137/api/temperature/getLastFifty.php',
+        url:'http://airduino-ph.000webhostapp.com/api/temperature/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -293,7 +306,7 @@ var getHumidityObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://192.168.43.137/api/humidity/getLastFifty.php',
+        url:'http://airduino-ph.000webhostapp.com/api/humidity/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -311,7 +324,7 @@ var getAirQualityObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://192.168.43.137/api/airquality/getLastFifty.php',
+        url:'http://airduino-ph.000webhostapp.com/api/airquality/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -411,6 +424,7 @@ var launchTemperature = (id)=>{
 
         } catch(e){
             showToast("No available data yet");
+            console.log(e);
         }
 
     } catch (error) {
@@ -427,8 +441,79 @@ var launchHumidity = (id)=>{
         
         try {
 
+            result = JSON.parse(localStorage.getItem(`airduino-humidity-${device.device_id}`));
+
+            $("#Hlocation").html(device.location);
+            $("#Hcity").html(device.city);
+
+            var latest = result[result.length - 1];
+            var ts = new Date(latest.timestamp);
+            $("#Hpercentage").html(latest.value + "%");
+            $("#Hdatetime").html(`${ts.toDateString()} (${ts.toLocaleTimeString()})`);
+
+            $("#Hhistory").html("");
+
+            var time_labels = [];
+            var temp_data = [];
+
+            if(result.length > 10){
+                var resultSlice = result.slice(result.length - 10);
+            } else {
+                var resultSlice = result;
+            }
+            resultSlice.forEach(element=>{
+                var date = new Date(element.timestamp);
+                var time = date.toLocaleTimeString();
+                time_labels.push(time);
+    
+                temp_data.push(element.value);
+            });
+    
+            if(result.length > 10){
+                result = result.slice(result.length - 10);
+            }
+            result.forEach(element=>{
+                var date = new Date(element.timestamp);
+    
+                var tpl = `
+                    <li class="collection-item">
+                        <p>${element.value}%</p>
+                        <p style="font-size:8pt;" class="grey-text">${date.toDateString()} - ${date.toLocaleTimeString()}</p>
+                    </li>
+                `;
+    
+                $("#Hhistory").append(tpl);
+    
+            });
+
+            new Chart(
+                document.getElementById("Hchart"),{
+                    "type":"line",
+                    "data":{
+                        "labels":time_labels,
+                        "datasets":
+                        [
+                            {
+                                "label":"Humidity","data":temp_data,
+                                "fill":false,
+                                "borderColor":"#1e88e5",
+                                "lineTension":0.01
+                            }
+                        ]
+                    },
+                    "options":{}
+                }
+            );
+
+            hideNavbar();
+            hideBottombar();
+            showWindowedBar();
+            showActivity('humidity');
+            $('html,body').animate({scrollTop:0},'medium');
+            
+
         } catch(error){
-            showToast("No air quality data yet");
+            showToast("No humidity data yet");
         }
     } catch(error){
         showToast("Cannot load humidity");
@@ -557,7 +642,7 @@ var setupNewsFeed = ()=>{
 		if(navigator.onLine){
 			$.ajax({
 				type:"GET",
-				url: "http://192.168.43.137/api/newsfeed/getAll.php",
+				url: "http://airduino-ph.000webhostapp.com/api/newsfeed/getAll.php",
 				cache: 'false',
 				success: result=>{
 					localStorage.setItem("airduino-newsfeed", result);
@@ -586,7 +671,7 @@ var launchAddStation = ()=>{
         $.ajax({
             type:"GET",
             cache:"false",
-            url:"http://192.168.43.137/api/device/getAll.php",
+            url:"http://airduino-ph.000webhostapp.com/api/device/getAll.php",
             success: result=>{
                 var result = JSON.parse(result);
                 result.forEach(element=>{
