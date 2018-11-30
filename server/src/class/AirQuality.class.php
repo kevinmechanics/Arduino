@@ -8,10 +8,7 @@ class AirQuality {
 	public $device_id;
 	public $value;
 	public $description;
-	public $month;
-	public $day;
-	public $year;
-	public $time;
+	public $timestamp;
 
 	function __construct($mysqli){
 		$this->mysqli = $mysqli;
@@ -22,7 +19,7 @@ class AirQuality {
 		$stmt = $this->mysqli->prepare("SELECT * FROM `air_quality` WHERE `id`=? LIMIT 1");
 		$stmt->bind_param("i",$this->id);
 		$stmt->execute();
-		$stmt->bind_result($id,$device_id,$value,$description,$month,$day,$year,$time);
+		$stmt->bind_result($id,$device_id,$value,$description,$timestamp);
 		
 		$result = array();
 		while($stmt->fetch()){
@@ -31,10 +28,7 @@ class AirQuality {
 				"device_id"=>$device_id,
 				"value"=>$value,
 				"description"=>$description,
-				"month"=>$month,
-				"day"=>$day,
-				"year"=>$year,
-				"time"=>$time
+				"timestamp"=>$timestamp
 			);
 		}
 		
@@ -46,13 +40,8 @@ class AirQuality {
 		$this->value = $array['value'];
 		$this->description = $array['description'];
 		
-		$this->month = date("M");
-		$this->day = date("d");
-		$this->year = date("Y");
-		$this->time = date("H:i:s");
-		
-		$stmt = $this->mysqli->prepare("INSERT INTO `air_quality`(`device_id`,`value`,`description`,`month`,`day`,`year`,`time`) VALUES (?,?,?,?,?,?,?)");
-		$stmt->bind_param("issssss",$this->device_id,$this->value,$this->description,$this->month,$this->day,$this->year,$this->time);
+		$stmt = $this->mysqli->prepare("INSERT INTO `air_quality`(`device_id`,`value`,`description`) VALUES (?,?,?)");
+		$stmt->bind_param("issssss",$this->device_id,$this->value,$this->description);
 		
 		if($stmt->execute()){
 			return True;
@@ -80,13 +69,9 @@ class AirQuality {
 		$this->device_id = $array['device_id'];
 		$this->value = $array['value'];
 		$this->description = $array['description'];
-		$this->month = $array['month'];
-		$this->day = $array['day'];
-		$this->year = $array['year'];
-		$this->time = $array['time'];
 		
-		$stmt = $this->mysqli->prepare("UPDATE `air_quality` SET `device_id`=?,`value`=?,`description`=?,`month`=?,`day`=?,`year`=?,`time`=?  WHERE `id`=? LIMIT 1");
-		$stmt->bind_param("ssssssi",$this->device_id,$this->value,$this->description,$this->month,$this->day,$this->year,$this->time,$this->id);
+		$stmt = $this->mysqli->prepare("UPDATE `air_quality` SET `device_id`=?,`value`=?,`description`=?  WHERE `id`=? LIMIT 1");
+		$stmt->bind_param("sssi",$this->device_id,$this->value,$this->description,$this->id);
 		
 		if($stmt->execute()){
 			return True;
@@ -95,13 +80,13 @@ class AirQuality {
 		}
 	 }
 	 
-	 public function getLastFifty(Int $device_id){
+	 public function getLastFifty(String $device_id){
 	 	$this->device_id = $device_id;
 		
-		$stmt = $this->mysqli->prepare("SELECT * FROM `air_quality` WHERE id=? ORDER BY `id` DESC LIMIT 50");
+		$stmt = $this->mysqli->prepare("SELECT * FROM `air_quality` WHERE device_id=? ORDER BY `id` DESC LIMIT 50");
 		$stmt->bind_param("i",$this->device_id);
 		$stmt->execute();
-		$stmt->bind_result($id,$device_id,$value,$description,$month,$day,$year,$time);
+		$stmt->bind_result($id,$device_id,$value,$description,$timestamp);
 		
 		$array_list = array();
 		
@@ -111,10 +96,7 @@ class AirQuality {
 				"device_id"=>$device_id,
 				"value"=>$value,
 				"description"=>$description,
-				"month"=>$month,
-				"day"=>$day,
-				"year"=>$year,
-				"time"=>$time
+				"timestamp"=>$timestamp
 			);
 			$array_list[] = $array;
 		}

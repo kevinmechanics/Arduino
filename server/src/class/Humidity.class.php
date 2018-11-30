@@ -7,10 +7,7 @@ class Humidity {
 	public $id;
 	public $device_id;
 	public $value;
-	public $month;
-	public $day;
-	public $year;
-	public $time;
+	public $timestamp;
 
 	function __construct($mysqli){
 		$this->mysqli = $mysqli;
@@ -21,7 +18,7 @@ class Humidity {
 		$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE `id`=? LIMIT 1");
 		$stmt->bind_param("i",$this->id);
 		$stmt->execute();
-		$stmt->bind_result($id,$device_id,$value,$month,$day,$year,$time);
+		$stmt->bind_result($id,$device_id,$value,$timestamp);
 		
 		$result = array();
 		while($stmt->fetch()){
@@ -29,10 +26,7 @@ class Humidity {
 				"id"=>$id,
 				"device_id"=>$device_id,
 				"value"=>$value,
-				"month"=>$month,
-				"day"=>$day,
-				"year"=>$year,
-				"time"=>$time
+				"timestamp"=>$timestamp
 			);
 		}
 		
@@ -42,14 +36,9 @@ class Humidity {
 	public function add(Array $array){
 		$this->device_id = $array['device_id'];
 		$this->value = $array['value'];
-		
-		$this->month = date("M");
-		$this->day = date("d");
-		$this->year = date("Y");
-		$this->time = date("H:i:s");
-		
-		$stmt = $this->mysqli->prepare("INSERT INTO `humidity`(`device_id`,`value`,`month`,`day`,`year`,`time`) VALUES (?,?,?,?,?,?)");
-		$stmt->bind_param("isssss",$this->device_id,$this->value,$this->month,$this->day,$this->year,$this->time);
+			
+		$stmt = $this->mysqli->prepare("INSERT INTO `humidity`(`device_id`,`value`) VALUES (?,?)");
+		$stmt->bind_param("is",$this->device_id,$this->value);
 		
 		if($stmt->execute()){
 			return True;
@@ -76,13 +65,9 @@ class Humidity {
 	 	$this->id = $array['id'];
 		$this->device_id = $array['device_id'];
 		$this->value = $array['value'];
-		$this->month = $array['month'];
-		$this->day = $array['day'];
-		$this->year = $array['year'];
-		$this->time = $array['time'];
 		
-		$stmt = $this->mysqli->prepare("UPDATE `humidity` SET `device_id`=?,`value`=?,`month`=?,`day`=?,`year`=?,`time`=?  WHERE `id`=? LIMIT 1");
-		$stmt->bind_param("ssssssi",$this->device_id,$this->value,$this->month,$this->day,$this->year,$this->time,$this->id);
+		$stmt = $this->mysqli->prepare("UPDATE `humidity` SET `device_id`=?,`value`=?  WHERE `id`=? LIMIT 1");
+		$stmt->bind_param("ssi",$this->device_id,$this->value,$this->id);
 		
 		if($stmt->execute()){
 			return True;
@@ -91,13 +76,13 @@ class Humidity {
 		}
 	 }
 	 
-	 public function getLastFifty(Int $device_id){
+	 public function getLastFifty(String $device_id){
 	 	$this->device_id = $device_id;
 		
-		$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE id=? ORDER BY `id` DESC LIMIT 50");
+		$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE device_id=? ORDER BY `id` DESC LIMIT 50");
 		$stmt->bind_param("i",$this->device_id);
 		$stmt->execute();
-		$stmt->bind_result($id,$device_id,$value,$month,$day,$year,$time);
+		$stmt->bind_result($id,$device_id,$value,$timestamp);
 		
 		$array_list = array();
 		
@@ -106,10 +91,7 @@ class Humidity {
 				"id"=>$id,
 				"device_id"=>$device_id,
 				"value"=>$value,
-				"month"=>$month,
-				"day"=>$day,
-				"year"=>$year,
-				"time"=>$time
+				"timestamp"=>$timestamp
 			);
 			$array_list[] = $array;
 		}

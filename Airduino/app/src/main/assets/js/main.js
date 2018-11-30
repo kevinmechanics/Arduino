@@ -4,6 +4,17 @@ $(document).ready(function(){
     $('.modal').modal();
     $('.tabs').tabs();
 
+    var sd = getSavedDevices();
+    try {
+        sd.forEach(element=>{
+            getTemperatureObject(element.device_id);
+            getHumidityObject(element.device_id);
+            getAirQualityObject(element.device_id);
+        });
+    } catch(e){
+        console.log(e);
+    }
+
     hideWindowedBar();
     clear();
     $(".splashscreen").fadeOut();
@@ -12,6 +23,7 @@ $(document).ready(function(){
     prepareHome();
 
     showActivity("home");
+
 });
 
 var showToast = (msg)=>{
@@ -139,53 +151,108 @@ var prepareHome = ()=>{
         } else {
             $("#homeDevicesList").html("");
             savedDevices.forEach(element => {
-                var tpl = `
-                    <h4>${element.location}</h4>
-                    <p>${element.city}</p>
-                    <div class="row">
-                        <div class="col s6">
-                            <h1 class="blue-text text-darken-2">30°C</h1>
-                            <p>78% Humidity</p>
+
+                try {
+
+                    var temp = JSON.parse(localStorage.getItem(`airduino-temperature-${element.device_id}`));
+                    var hum = JSON.parse(localStorage.getItem(`airduino-humidity-${element.device_id}`));
+                    var air = JSON.parse(localStorage.getItem(`airduino-airquality-${element.device_id}`));    
+
+                    temp = temp[temp.length - 1];
+                    hum = hum[hum.length - 1];
+                    air = air[air.length - 1];
+
+                    var ts = new Date(temp.timestamp);
+
+                    var tpl = `
+                        <h4>${element.location}</h4>
+                        <p>${element.city}</p>
+                        <div class="row">
+                            <div class="col s6">
+                                <h1 class="blue-text text-darken-2">${temp.value}°C</h1>
+                                <p>${hum.value}% Humidity</p>
+                            </div>
+                            <div class="col s6">
+                            <br>
+                                <p style="font-size:-1;">Air Quality</p>
+                                <h5 class="blue-text">${air.description}</h5>
+                                <p>at ${air.value} PPM</p>
+                            </div>
                         </div>
-                        <div class="col s6">
-                        <br>
-                            <p style="font-size:-1;">Air Quality</p>
-                            <h5 class="blue-text">Moderate</h5>
-                            <p>at 93 PPM</p>
+                        <p class="grey-text">As of ${ts.toDateString()} (${ts.toLocaleTimeString()})</p>
+                        <br><br>
+                        <div class="row">
+                            <div class="col s4">
+                                <a href="#!" onclick="launchTemperature('${element.id}');">
+                                    <div class="circle_button_small red lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">wb_sunny</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Temperature</p>
+                                </a>
+                            </div>
+                            <div class="col s4">
+                                <a href="#!" onclick="launchHumidity('${element.id}');">
+                                    <div class="circle_button_small green lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">cloud</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Humidity</p>
+                                </a>
+                            </div>
+                            <div class="col s4">
+                                <a href="#!" onclick="launchAirQuality('${element.id}');">
+                                    <div class="circle_button_small blue lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">tonality</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Air Quality</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <p class="grey-text">As of Nov 20 4:55 PM</p>
-                    <br><br>
-                    <div class="row">
-                        <div class="col s4">
-                            <a href="#!" onclick="launchTemperature('${element.id}');">
-                                <div class="circle_button_small red lighten-2" style="border:0px;">
-                                    <i class="material-icons white-text">wb_sunny</i>
-                                </div>
-                                <p class="grey-text darken-1">Temperature</p>
-                            </a>
+                        
+                        <br><br><br>
+                    `;
+                    $("#homeDevicesList").append(tpl);
+    
+                } catch(e){
+
+                    console.log(e);
+
+                    var tpl = `
+                        <h4>${element.location}</h4>
+                        <p>${element.city}</p>
+                        <br><br>
+                        <div class="row">
+                            <div class="col s4">
+                                <a href="#!" onclick="launchTemperature('${element.id}');">
+                                    <div class="circle_button_small red lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">wb_sunny</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Temperature</p>
+                                </a>
+                            </div>
+                            <div class="col s4">
+                                <a href="#!" onclick="launchHumidity('${element.id}');">
+                                    <div class="circle_button_small green lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">cloud</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Humidity</p>
+                                </a>
+                            </div>
+                            <div class="col s4">
+                                <a href="#!" onclick="launchAirQuality('${element.id}');">
+                                    <div class="circle_button_small blue lighten-2" style="border:0px;">
+                                        <i class="material-icons white-text">tonality</i>
+                                    </div>
+                                    <p class="grey-text darken-1">Air Quality</p>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col s4">
-                            <a href="#!" onclick="launchHumidity('${element.id}');">
-                                <div class="circle_button_small green lighten-2" style="border:0px;">
-                                    <i class="material-icons white-text">cloud</i>
-                                </div>
-                                <p class="grey-text darken-1">Humidity</p>
-                            </a>
-                        </div>
-                        <div class="col s4">
-							<a href="#!" onclick="launchAirQuality('${element.id}');">
-								<div class="circle_button_small blue lighten-2" style="border:0px;">
-									<i class="material-icons white-text">tonality</i>
-								</div>
-								<p class="grey-text darken-1">Air Quality</p>
-							</a>
-                        </div>
-                    </div>
-                    
-                    <br><br><br>
-                `;
-                $("#homeDevicesList").append(tpl);
+                        
+                        <br><br><br>
+                    `;
+
+                    $("#homeDevicesList").append(tpl);
+
+                }
             });
 
             $("#homeEmptyDevices").hide();
@@ -208,7 +275,7 @@ var getTemperatureObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://localhost/api/temperature/getLastFifty.php',
+        url:'http://192.168.43.137/api/temperature/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -221,6 +288,42 @@ var getTemperatureObject = (id)=>{
     });
     
 }
+
+var getHumidityObject = (id)=>{
+
+    $.ajax({
+        type:'GET',
+        url:'http://192.168.43.137/api/humidity/getLastFifty.php',
+        data: {
+            device_id:id
+        },
+        success: result=>{
+            result = JSON.parse(result);
+            localStorage.setItem(`airduino-humidity-${id}`,JSON.stringify(result));
+        }
+    }).fail((error)=>{            
+        console.log(error);
+    });
+    
+};
+
+var getAirQualityObject = (id)=>{
+
+    $.ajax({
+        type:'GET',
+        url:'http://192.168.43.137/api/airquality/getLastFifty.php',
+        data: {
+            device_id:id
+        },
+        success: result=>{
+            result = JSON.parse(result);
+            localStorage.setItem(`airduino-airquality-${id}`,JSON.stringify(result));
+        }
+    }).fail((error)=>{            
+        console.log(error);
+    });
+    
+};
 
 var launchTemperature = (id)=>{
     try {
@@ -235,7 +338,7 @@ var launchTemperature = (id)=>{
             $("#Tcity").html(device.city);
     
             var latest = result[result.length - 1];
-    
+   
             var ts = new Date(latest.timestamp);
             ts = `${ts.toDateString()} (${ts.toLocaleTimeString()})`;
     
@@ -248,7 +351,12 @@ var launchTemperature = (id)=>{
     
             $("#Thistory").html("");
             
-            var resultSlice = result.slice(45);
+            if(result.length > 5){
+                var resultSlice = result.slice(result.length - 5);
+            } else {
+                var resultSlice = result;
+            }
+
             resultSlice.forEach(element=>{
                 var date = new Date(element.timestamp);
                 var time = date.toLocaleTimeString();
@@ -257,7 +365,10 @@ var launchTemperature = (id)=>{
                 temp_data.push(element.value);
             });
     
-            result = result.slice(40);
+            if(result.length > 10){
+                result = result.slice(result.length - 10);
+            }
+
             result.forEach(element=>{
                 var date = new Date(element.timestamp);
     
@@ -312,16 +423,13 @@ var launchHumidity = (id)=>{
     try {
 
         var device = getSavedDeviceInfo(id);
-        var result = getTemperatureObject();
+        getHumidityObject(device.device_id);
+        
+        try {
 
-        $("#Hlocation").html(device.location);
-        $("#Hcity").html(device.city);
-
-        hideNavbar();
-        hideBottombar();
-        showWindowedBar();
-        showActivity('humidity');
-        $('html,body').animate({scrollTop:0},'medium');
+        } catch(error){
+            showToast("No air quality data yet");
+        }
     } catch(error){
         showToast("Cannot load humidity");
         console.log(error);
@@ -332,10 +440,77 @@ var launchAirQuality = (id)=>{
 	try {
 
         var device = getSavedDeviceInfo(id);
-        var result = getTemperatureObject();
+        getAirQualityObject(device.device_id);
+        var result = JSON.parse(localStorage.getItem(`airduino-airquality-${device.device_id}`));
+
+        var latest = result[result.length - 1];
 
         $("#Alocation").html(device.location);
         $("#Acity").html(device.city);
+
+        var lValue = latest.value;
+        var lDescription = latest.description;
+
+        $("#Aquality").html(`<b>${lDescription} </b><br>${lValue} PPM`);
+
+        var ts = new Date(latest.timestamp);
+        ts = `${ts.toDateString()} (${ts.toLocaleTimeString()})`;
+
+        $("Adatetime").html(ts);
+
+        var time_labels = [];
+        var temp_data = [];
+
+        $("#Hhistory").html("");
+        
+        if(result.length > 10){
+            var resultSlice = result.slice(result.length - 10);
+        } else {
+            var resultSlice = result;
+        }
+        resultSlice.forEach(element=>{
+            var date = new Date(element.timestamp);
+            var time = date.toLocaleTimeString();
+            time_labels.push(time);
+
+            temp_data.push(element.value);
+        });
+
+        if(result.length > 10){
+            result = result.slice(result.length - 10);
+        }
+        result.forEach(element=>{
+            var date = new Date(element.timestamp);
+
+            var tpl = `
+                <li class="collection-item">
+                    <p>${element.description} at ${element.value} PPM</p>
+                    <p style="font-size:8pt;" class="grey-text">${date.toDateString()} - ${date.toLocaleTimeString()}</p>
+                </li>
+            `;
+
+            $("#Hhistory").append(tpl);
+
+        });
+
+            new Chart(
+                document.getElementById("Achart"),{
+                    "type":"line",
+                    "data":{
+                        "labels":time_labels,
+                        "datasets":
+                        [
+                            {
+                                "label":"Air Quality","data":temp_data,
+                                "fill":false,
+                                "borderColor":"#1e88e5",
+                                "lineTension":0.01
+                            }
+                        ]
+                    },
+                    "options":{}
+                }
+            );
 
         hideNavbar();
         hideBottombar();

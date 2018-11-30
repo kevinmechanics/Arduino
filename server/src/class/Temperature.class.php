@@ -76,7 +76,7 @@ class Temperature {
 		}
 	 }
 	 
-	 public function getLastFifty(Int $device_id){
+	 public function getLastFifty(String $device_id){
 	 	$this->device_id = $device_id;
 		
 		$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE device_id=? ORDER BY `id` DESC LIMIT 50");

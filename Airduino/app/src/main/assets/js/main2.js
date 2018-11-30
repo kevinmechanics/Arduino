@@ -32,6 +32,10 @@ var addSavedStation = (obj)=>{
     }
     stations.push(obj);
     localStorage.setItem("airduino-devices",JSON.stringify(stations));
+
+    getTemperatureObject(obj.device_id);
+    getHumidityObject(obj.device_id);
+    getAirQualityObject(obj.device_id);
 };
 
 var deleteSavedStation = (id)=>{
@@ -79,7 +83,7 @@ var editAccount = ()=>{
                 $.ajax({
                     type:"POST",
                     cache:'false',
-                    url:"http://localhost/api/user/editAccount.php",
+                    url:"http://192.168.43.137/api/user/editAccount.php",
                     data: {
                         id:i,
                         first_name:fn,

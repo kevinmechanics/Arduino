@@ -229,7 +229,7 @@
                     <h5 id="Hlocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Hcity">Dasmarinas City</p>
                     <p class="blue-text text-darken-2" style="font-size:50pt !important; margin:0px;" id="Hpercentage"><b>50%</b></p>
-                    <p class="grey-text">As of <span id="Tdatetime">Nov 20 4:55 PM</span></p>
+                    <p class="grey-text">As of <span id="Hdatetime">Nov 20 4:55 PM</span></p>
                 </center>
                 <br>
                 <br>
@@ -246,7 +246,7 @@
                     <br>
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Previous 50 Record</span></center><br>
+                            <center><span class="card-title">Previous 10 Record</span></center><br>
                             <br>
                             <ul class="collection" id="Hhistory">
                                 <li class="collection-item">
@@ -277,28 +277,6 @@
                     </div>
                 </div>
                 <!-- humidity export modal -->
-
-                <script>
-                    new Chart(
-                        document.getElementById("Hchart"),{
-                            "type":"line",
-                            "data":{
-                                "labels":
-                                    ["5:00","5:15","5:30","6:00","6:30","7:00"],
-                                "datasets":
-                                [
-                                    {
-                                        "label":"Humidity","data":[30,25,32,35,28,30],
-                                        "fill":false,
-                                        "borderColor":"#1e88e5",
-                                        "lineTension":0.01
-                                    }
-                                ]
-                            },
-                            "options":{}
-                        }
-                    );
-                </script>
             	<br><br><br><br><br>
         	</div>
         </div>
@@ -330,7 +308,7 @@
                     <br>
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Previous 50 Record</span></center><br>
+                            <center><span class="card-title">Previous 10 Record</span></center><br>
                             <br>
                             <ul class="collection" id="Ahistory">
                                 <li class="collection-item">
@@ -362,27 +340,6 @@
                 </div>
                 <!-- temp export modal -->
 
-                <script>
-                    new Chart(
-                        document.getElementById("Achart"),{
-                            "type":"line",
-                            "data":{
-                                "labels":
-                                    ["5:00","5:15","5:30","6:00","6:30","7:00"],
-                                "datasets":
-                                [
-                                    {
-                                        "label":"Air Quality","data":[30,25,32,35,28,30],
-                                        "fill":false,
-                                        "borderColor":"#1e88e5",
-                                        "lineTension":0.01
-                                    }
-                                ]
-                            },
-                            "options":{}
-                        }
-                    );
-                </script>
                 <br><br><br><br><br>
             </div>
         </div>
