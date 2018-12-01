@@ -1,6 +1,6 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
 
