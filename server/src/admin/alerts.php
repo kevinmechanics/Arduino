@@ -1,6 +1,7 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
 
@@ -11,6 +12,15 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/Newsfeed.class.php");
+
+$newsfeed = new Newsfeed($mysqli);
+
+$nf_list = $newsfeed->getAll();
+
 ?>
 <!Doctype html>
 <html>
@@ -67,6 +77,24 @@ if(@$AdminObject){
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+							foreach($nf_list as $nf){
+								$id = $nf['id'];
+								$title = $nf['title'];
+								$content = $nf['content'];
+								$timestamp = $nf['timestamp_created'];
+								echo "
+									<tr>
+										<td>$id</td>
+										<td>$title</td>
+										<td>$content</td>
+										<td>$timestamp</td>
+										<td></td>
+										<td></td>
+									</tr>
+								";
+							}
+						?>
 						</tbody>
 					</table>					
 				</div>

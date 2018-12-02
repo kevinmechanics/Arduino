@@ -11,6 +11,16 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/User.class.php");
+
+$user = new User($mysqli);
+
+$user_list = $user->getAll();
+
+
 ?>
 <!Doctype html>
 <html>
@@ -67,6 +77,28 @@ if(@$AdminObject){
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+							foreach($user_list as $u){
+								$id = $u['id'];
+								$first_name = $u['first_name'];
+								$last_name = $u['last_name'];
+								$username = $u['username'];
+								$timestamp_created = $u['timestamp_created'];
+
+								echo "
+									<tr>
+										<td>$id</td>
+										<td>$first_name</td>
+										<td>$last_name</td>
+										<td>$username</td>
+										<td></td>
+										<td>
+											<a style='color:red;' href='/api/user/delete.php?id=$id'>Delete</a>
+										</td>
+									</tr>
+								";
+							}
+						?>
 						</tbody>
 					</table>					
 				</div>

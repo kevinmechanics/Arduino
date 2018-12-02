@@ -1,6 +1,6 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
 
@@ -11,6 +11,15 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/Device.class.php");
+
+$device = new Device($mysqli);
+
+$dev_list = $device->getAll();
+
 ?>
 <!Doctype html>
 <html>
@@ -58,7 +67,6 @@ if(@$AdminObject){
 					<table>
 						<thead>
 							<tr>
-								<th>ID</th>
 								<th>Device ID</th>
 								<th>Location</th>
 								<th>City</th>
@@ -68,6 +76,24 @@ if(@$AdminObject){
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+							foreach($dev_list as $dev){
+								$device_id = $dev['device_id'];
+								$location = $dev['location'];
+								$city = $dev['city'];
+								$mobile_number = $dev['mobile_number'];
+								echo "
+									<tr>
+										<td>$device_id</td>
+										<td>$location</td>
+										<td>$city</td>
+										<td>$mobile_number</td>
+										<td></td>
+										<td></td>
+									</tr>
+								";
+							}
+						?>
 						</tbody>
 					</table>					
 				</div>

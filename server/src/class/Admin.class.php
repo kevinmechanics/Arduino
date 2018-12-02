@@ -15,6 +15,29 @@ class Admin {
         $this->mysqli = $mysqli;
     }
 
+
+    public function getAll(){
+        $query = "SELECT * FROM `administrator` ORDER BY `name` ASC";
+
+        $admin_array = array();
+
+        if($result = $this->mysqli->query($query)){
+            while($a = $result->fetch_array()){
+                $array = array(
+                    "id"=>$a['id'],
+                    "name"=>$a['name'],
+                    "username"=>$a['username'],
+                    "timestamp_created"=>$a['timestamp_created'],
+                    "timestamp_modified"=>$a['timestamp_modified']                    
+                );
+
+                $admin_array[] = $array;
+            }
+        }
+
+        return $admin_array;
+    }
+
     public function get(Int $id){
         $this->id = $id;
 

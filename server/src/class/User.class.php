@@ -14,7 +14,36 @@ class User {
 	function __construct($mysqli){
 		$this->mysqli = $mysqli;
 	}
+
 	
+	public function getAll(){
+		$ar = array();
+		$query = "SELECT * FROM `user` ORDER BY `first_name` ASC";
+
+		if($result = $this->mysqli->query($query)){
+			while($u = $result->fetch_array()){
+				$id = $u['id'];
+				$first_name = $u['first_name'];
+				$last_name = $u['last_name'];
+				$username = $u['username'];
+				$timestamp_created = $u['timestamp_created'];
+
+				$array = array(
+					"id"=>$id,
+					"first_name"=>$first_name,
+					"last_name"=>$last_name,
+					"username"=>$username,
+					"timestamp_created"=>$timestamp_created
+				);
+
+				$ar[] = $array;
+			}
+		}
+
+		return $ar;
+
+	}
+
 	public function get(Int $id){
 		$this->id = $id;
 		
