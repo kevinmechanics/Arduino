@@ -1,4 +1,6 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+
 $time_zone = "Asia/Manila";
 date_default_timezone_set($time_zone);
 

@@ -13,6 +13,27 @@ class Newsfeed {
 		$this->mysqli = $mysqli;
 	}
 	
+	public function getAll(){
+		$array = array();
+
+		$query = "SELECT * FROM `newsfeed`";
+		
+		if($result = $this->mysqli->query($query)){
+			while($res = $result->fetch_array()){
+				$ar = array(
+					"id"=>$res['id'],
+					"title"=>$res['title'],
+					"content"=>$res['content'],
+					"timestamp_created"=>$res['timestamp_created']
+				);
+
+				$array[] = $ar;
+			}
+		}
+
+		return $array;
+	}
+
 	public function get(Int $id){
 		$this->id = $id;
 		
@@ -64,7 +85,7 @@ class Newsfeed {
 	
 	public function update(Array $array){
 		$this->id = $array["id"];
-		$this-title = $array["title"];
+		$this->title = $array["title"];
 		$this->content = $array["content"];
 		
 		$stmt = $this->mysqli->prepare("UPDATE `newsfeed` SET `title`=?,`content`=? WHERE `id`=? LIMIT 1");

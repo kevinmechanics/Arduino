@@ -24,7 +24,7 @@
 
             <ul id='dropdown1' class='dropdown-content'>
                 <li><a href="https://goo.gl/forms/YOQelHn2ATyPdzx42" class="black-text">Report a Problem</a></li>
-                <li><a href="main.html" class="black-text">Main</a></li>
+                <!--li><a href="main.html" class="black-text">Main</a></li-->
             </ul>
 
         </nav>
@@ -84,6 +84,10 @@
                         </div>
                         <br>
                         <p><font size="-2" class="grey-text">By continuing, you agree to our <a class="modal-trigger" href="#termsconditions">Terms and Conditions</a> and <a class="modal-trigger" href="#privacypolicy">Privacy Policy</a>.</font></p>
+                        <br>
+                        <a class="btn btn-medium btn-flat transparent z-depth-0" style="border-radius:4px; font-size:8pt !important;" onclick="showActivity('forgotpw')">Forgot Password?</a>
+                        <br>
+                        <br><br>
                     </div>
 
                 </center>
@@ -135,6 +139,30 @@
             </div>
         </div>
         <!-- .register -->
+
+        <!-- forgotpw -->
+        <div class="activity" id="forgotpwActivity">
+            <div class="content">
+                <center>
+                    <h4>Forgot Password</h4>
+                    <br>
+                </center>
+                <p style="margin-left:5%; margin-right:5%;">
+                    You will be redirected to an online form where we'll ask you some
+                    questions, like at what month and/or year the account was created.
+                    Once the process is done, we'll give you additional instructions
+                    in your e-mail. You may freely make a new account when you are
+                    in a hurry.<br>
+                    <br>
+                    Do you want to proceed?
+                </p>
+            </div>
+            <div class="bottomtransparent white">
+                    <a class="btn btn-medium blue darken-2 waves-effect right z-depth-0" style="margin-right:5%; border-radius:4px" href="https://goo.gl/forms/QG7Po0pErfldJBjZ2">Proceed</a>
+                    <a class="btn btn-medium btn-flat transparent right z-depth-0" style="margin-right:5%; border-radius:4px" onclick="showActivity('account')">Back</a>
+            </div>
+        </div>
+        <!-- .forgotpw -->
 
         <!-- terms and conditions modal -->
         <div id="termsconditions" class="modal modal-fixed-footer">

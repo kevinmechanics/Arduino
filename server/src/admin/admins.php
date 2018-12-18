@@ -2,15 +2,25 @@
 session_start();
 //if(empty($_SESSION['loggedin'])) header('Location: login.php');
 
-$AdminObject = $_SESSION['AdminObject'];
+@$AdminObject = $_SESSION['AdminObject'];
 
 $admin_name = "Anonymous";
 $admin_username = "username";
 
-if($AdminObject){
-	$admin_name = $AdminObject['name'];
-	$admin_username = $AdminObject['username'];
+if(@$AdminObject){
+	$admin_name = @$AdminObject['name'];
+	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/Admin.class.php");
+
+$admin = new Admin($mysqli);
+
+$admin_list = $admin->getAll();
+
+
 ?>
 <!Doctype html>
 <html>
@@ -58,7 +68,6 @@ if($AdminObject){
 					<table>
 						<thead>
 							<tr>
-								<th>ID</th>
 								<th>Name</th>
 								<th>Username</th>
 								<th>Edit</th>
@@ -66,6 +75,24 @@ if($AdminObject){
 							</tr>
 						</thead>
 						<tbody>
+						<?php
+							foreach($admin_list as $a){
+								$id = $a['id'];
+								$name = $a['name'];
+								$username = $a['username'];
+
+								echo "
+								<tr>
+									<td>$name</td>
+									<td>$username</td>
+									<td></td>
+									<td>
+										<a style='color:red;' href='/api/admin/delete.php?id=$id'>Delete</a>
+									</td>
+								</tr>
+								";
+							}	
+						?>
 						</tbody>
 					</table>					
 				</div>

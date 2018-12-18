@@ -2,14 +2,14 @@
 session_start();
 //if(empty($_SESSION['loggedin'])) header('Location: login.php');
 
-$AdminObject = $_SESSION['AdminObject'];
+@$AdminObject = $_SESSION['AdminObject'];
 
 $admin_name = "Anonymous";
 $admin_username = "username";
 
-if($AdminObject){
-	$admin_name = $AdminObject['name'];
-	$admin_username = $AdminObject['username'];
+if(@$AdminObject){
+	$admin_name = @$AdminObject['name'];
+	$admin_username = @$AdminObject['username'];
 }
 ?>
 <!Doctype html>
@@ -35,7 +35,10 @@ if($AdminObject){
 					<h2>Get the temperature, humidity and air quality in your baranggay.</h2>
 					<h4>Anytime, anywhere.</h4>
 					<br><br>
-					<a href="#!" class="btn">Get it on Google Play</a>
+					<a href="#!">
+						<img src="/static/google-play-badge.png" width="250px">
+					</a>
+					<p style="font-size:10pt;">Google Play and the Google Play logo are trademarks of Google LLC.</p>
 				</div>
 			</div>
 		</div>

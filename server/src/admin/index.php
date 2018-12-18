@@ -1,15 +1,15 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
-$AdminObject = $_SESSION['AdminObject'];
+@$AdminObject = $_SESSION['AdminObject'];
 
 $admin_name = "Anonymous";
 $admin_username = "username";
 
-if($AdminObject){
-	$admin_name = $AdminObject['name'];
-	$admin_username = $AdminObject['username'];
+if(@$AdminObject){
+	$admin_name = @$AdminObject['name'];
+	$admin_username = @$AdminObject['username'];
 }
 ?>
 <!Doctype html>

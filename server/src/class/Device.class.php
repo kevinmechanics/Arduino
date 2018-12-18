@@ -16,6 +16,29 @@ class Device {
 		$this->mysqli = $mysqli;
 	}
 	
+	public function getAll(){
+		$array = array();
+
+		$query = "SELECT * FROM `device` ORDER BY `location` ASC";
+
+		if($result = $this->mysqli->query($query)){
+			while($res = $result->fetch_array()){
+				$ar = array(
+					"id"=>$res['id'],
+					"device_id"=>$res['device_id'],
+					"location"=>$res['location'],
+					"city"=>$res['city'],
+					"mobile_number"=>$res['mobile_number'],
+					"timestamp_created"=>$res['timestamp_created'],
+					"timestamp_modified"=>$res['timestamp_modified']
+				);
+				$array[] = $ar;
+			}
+		}
+
+		return $array;
+	}
+
 	public function get(Int $id){
 		$this->id = $id;
 		$stmt = $this->mysqli->prepare("SELECT * FROM `device` WHERE id=? LIMIT 1");
@@ -71,7 +94,7 @@ class Device {
 		$this->mobile_number = $array['mobile_number'];
 		
 		$stmt = $this->mysqli->prepare("INSERT INTO `device`(`device_id`,`location`,`city`,`mobile_number`) VALUES(?,?,?,?)");
-		$stmt->bind_param("ssss",$this->device_id,$this->location,$this->city,$this->mobile_number):
+		$stmt->bind_param("ssss",$this->device_id,$this->location,$this->city,$this->mobile_number);
 		
 		if($stmt->execute()){
 			return True;
