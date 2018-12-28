@@ -1,0 +1,95 @@
+body{
+    font-family: 'Montserrat-Regular', sans-serif !important;
+}
+.bottombar {
+    position:fixed;
+    height:55px;
+    margin:0px;
+    bottom:0;
+    width:100%;
+    overflow:hidden;
+    background-color: white;
+    box-shadow: 0px -2.5px rgba(0, 0, 0, 0.12);
+    padding-top:13px;
+}
+
+.bottomtransparent {
+    position:fixed;
+    height: 80px;
+    margin:0px;
+    bottom:0;
+    width:100%;
+    overflow:hidden;
+}
+
+.splashscreen {
+    position: fixed;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+}
+
+.circle_button {
+    color:rgb(150, 150, 150);
+    border-radius: 100px;
+    border-style: solid;
+    border-width: 2px;
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-bottom: 20px;
+    padding-top:30px;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.circle_button_small {
+    border-radius: 100px;
+    padding-left: 18px;
+    padding-right: 16px;
+    padding-bottom: 15px;
+    padding-top:20px;
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.card-title {
+    border-radius: 100px;
+    border-color:rgb(230, 230, 230);
+    border-style:solid;
+    border-width: 1px;
+    display:inline !important;
+    font-size: 10pt !important;
+    font-weight: bold !important;
+    padding: 0.5rem 2rem;
+    color: grey;
+}
+
+.circle_button_border {
+    display:table-cell;
+    margin:0px;
+    padding:30px;
+    border-radius: 50%;
+    height:40px;
+    width:40px;
+    max-width: auto;
+}
+.circle_button_border > span {
+    font-size:14pt;
+}
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(150, 150, 150, 0.3);
+}
+.card-action {
+	border-radius: 0 0 20px 20px !important;
+}
+
+li.collection-item > a {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    font-size:1rem !important;
+}

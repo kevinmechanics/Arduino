@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        if(localStorage.getItem("airduino-loggedin")){
+            var li = localStorage.getItem("airduino-loggedin");
+            if(li == 'true'){
+                location.replace('main.html');
+            } else {
+                location.replace('welcome.html');
+            }
+        } else {
+            location.replace('welcome.html');
+        }
+    </script>
+</head>
+</html>
