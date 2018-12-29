@@ -1,7 +1,7 @@
 <?php
 /*
 Airduino sample request:
-http://localhost/gateway/add.php?device_id=1&temperature=30&air_value=34&air_description=Moderate&humidity=40
+https://airduino-ph.000webhostapp.com/gateway/add.php?device_id=1&temperature=30&air_value=34&air_description=Moderate&humidity=40 
 */
 
 require_once("../_system/keys.php");
@@ -15,8 +15,8 @@ if(empty($_GET['device_id'])) die();
 $device_id = strip_tags($_GET['device_id']);
 $temperature_val = strip_tags($_GET['temperature']);
 $air_value = strip_tags($_GET['air_value']);
-$air_description = strip_tags('air_description');
-$humidity_val = strip_tags('humidity');
+$air_description = strip_tags($_GET['air_description']);
+$humidity_val = strip_tags($_GET['humidity']);
 
 $temperature = new Temperature($mysqli);
 $air_quality = new AirQuality($mysqli);
@@ -43,5 +43,4 @@ $air_quality->add($array_air);
 $humidity->add($array_humidity);
 
 echo "OK";
-
 ?>

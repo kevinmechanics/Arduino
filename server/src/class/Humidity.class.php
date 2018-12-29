@@ -38,7 +38,7 @@ class Humidity {
 		$this->value = $array['value'];
 			
 		$stmt = $this->mysqli->prepare("INSERT INTO `humidity`(`device_id`,`value`) VALUES (?,?)");
-		$stmt->bind_param("is",$this->device_id,$this->value);
+		$stmt->bind_param("ss",$this->device_id,$this->value);
 		
 		if($stmt->execute()){
 			return True;

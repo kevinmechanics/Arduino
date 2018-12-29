@@ -41,7 +41,7 @@ class AirQuality {
 		$this->description = $array['description'];
 		
 		$stmt = $this->mysqli->prepare("INSERT INTO `air_quality`(`device_id`,`value`,`description`) VALUES (?,?,?)");
-		$stmt->bind_param("issssss",$this->device_id,$this->value,$this->description);
+		$stmt->bind_param("sss",$this->device_id,$this->value,$this->description);
 		
 		if($stmt->execute()){
 			return True;
