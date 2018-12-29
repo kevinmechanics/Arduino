@@ -26,7 +26,7 @@ $dev_list = $device->getAll();
 	<head>
 		<title>Admin - Airduino</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="theme-color" content="#2196F3">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" href="/admin/styles/style.css">
 	</head>
@@ -88,8 +88,12 @@ $dev_list = $device->getAll();
 										<td>$location</td>
 										<td>$city</td>
 										<td>$mobile_number</td>
-										<td></td>
-										<td></td>
+										<td>
+										<a href='/admin/devices_edit.php?id=$id'>Edit</a>
+									</td>
+									<td>
+										<a style='color:red;' href='/api/device/delete.php?id=$id'>Delete</a>
+									</td>
 									</tr>
 								";
 							}

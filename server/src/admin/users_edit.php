@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
@@ -11,6 +12,17 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/User.class.php");
+
+$user_obj = new User($mysqli);
+
+$user_info = $user_obj->get($id);
+if(empty($user_info)) die("User not found");
+
+
 ?>
 <!Doctype html>
 <html>
@@ -54,13 +66,15 @@ if(@$AdminObject){
 					</ul>
 				</div>
 				<div class="col s10">
-					<h3>Alerts > Add</h3> <a href="/admin/alerts.php" class="btn btn_small">Back</a>
+					<h3>Users > Edit</h3> <a href="/admin/users.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form method="POST" action="../api/newsfeed/add.php">
-						<input type="text" name="title" placeholder="Title" style="width:60%">
-						<textarea name="content" placeholder="Content" style="width:60%"></textarea>
+					<form method="POST" action="../api/user/edit.php?id=<?php echo $id; ?>">
+						<input type="text" name="first_name" placeholder="First Name" style="width:60%" value="<?php echo $user_obj['first_name']; ?>">
+						<input type="text" name="last_name" placeholder="Last Name" style="width:60%" value="<?php echo $user_obj['last_name']; ?>">
+						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $user_obj['username']; ?>">
+						<input type="password" name="password" placeholder="Password" style="width:60%">
 						<br><br>
-						<button type="submit" class="btn">Add</button>
+						<button type="submit" class="btn">Edit</button>
 					</form>
 				</div>
 			</div>

@@ -17,7 +17,7 @@ if(@$AdminObject){
 	<head>
 		<title>Admin - Airduino</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="theme-color" content="#2196F3">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" href="/admin/styles/style.css">
 	</head>

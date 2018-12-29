@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+if(empty($_SESSION['loggedin'])) die("Unauthorized");
 
 require_once("../../_system/keys.php");
 require_once("../../_system/db.php");

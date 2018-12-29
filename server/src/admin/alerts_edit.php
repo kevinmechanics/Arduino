@@ -11,6 +11,17 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/Newsfeed.class.php");
+
+$newsfeed_obj = new Newsfeed($mysqli);
+
+$newsfeed_info = $newsfeed_obj->get($id);
+if(empty($newsfeed_info)) die("Entry not found");
+
+
 ?>
 <!Doctype html>
 <html>
@@ -54,13 +65,13 @@ if(@$AdminObject){
 					</ul>
 				</div>
 				<div class="col s10">
-					<h3>Alerts > Add</h3> <a href="/admin/alerts.php" class="btn btn_small">Back</a>
+					<h3>Alerts > Edit</h3> <a href="/admin/alerts.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form method="POST" action="../api/newsfeed/add.php">
-						<input type="text" name="title" placeholder="Title" style="width:60%">
-						<textarea name="content" placeholder="Content" style="width:60%"></textarea>
+					<form method="POST" action="../api/newsfeed/edit.php?id=<?php echo $id; ?>">
+						<input type="text" name="title" placeholder="Title" style="width:60%" value="<?php echo $newsfeed_obj['title']; ?>">
+						<textarea name="content" placeholder="Content" style="width:60%"><?php echo $newsfeed_obj['content']; ?></textarea>
 						<br><br>
-						<button type="submit" class="btn">Add</button>
+						<button type="submit" class="btn">Edit</button>
 					</form>
 				</div>
 			</div>

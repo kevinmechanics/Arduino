@@ -1,6 +1,7 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
 
@@ -17,7 +18,7 @@ if(@$AdminObject){
 	<head>
 		<title>Admin - Airduino</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="theme-color" content="#2196F3">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" href="/admin/styles/style.css">
 	</head>
@@ -56,7 +57,7 @@ if(@$AdminObject){
 				<div class="col s10">
 					<h3>Users > Add</h3> <a href="/admin/users.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form method="POST" action="">
+					<form method="POST" action="../api/user/add.php">
 						<input type="text" name="first_name" placeholder="First Name" style="width:60%">
 						<input type="text" name="last_name" placeholder="Last Name" style="width:60%">
 						<input type="text" name="username" placeholder="Username" style="width:60%">

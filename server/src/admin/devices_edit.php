@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
@@ -11,6 +12,17 @@ if(@$AdminObject){
 	$admin_name = @$AdminObject['name'];
 	$admin_username = @$AdminObject['username'];
 }
+
+
+require_once("../_system/keys.php");
+require_once("../_system/db.php");
+require_once("../class/Device.class.php");
+
+$device_obj = new Device($mysqli);
+
+$device_info = $device_obj->get($id);
+if(empty($device_info)) die("Device not found");
+
 ?>
 <!Doctype html>
 <html>
@@ -54,13 +66,15 @@ if(@$AdminObject){
 					</ul>
 				</div>
 				<div class="col s10">
-					<h3>Alerts > Add</h3> <a href="/admin/alerts.php" class="btn btn_small">Back</a>
+					<h3>Devices > Edit</h3> <a href="/admin/devices.php" class="btn btn_small">Back</a>
 					<br><br>
-					<form method="POST" action="../api/newsfeed/add.php">
-						<input type="text" name="title" placeholder="Title" style="width:60%">
-						<textarea name="content" placeholder="Content" style="width:60%"></textarea>
+					<form method="POST" action="../api/device/edit.php?id=<?php echo $id; ?>">
+						<input type="text" name="device_id" placeholder="Device ID" style="width:60%" value="<?php echo $device_obj['device_id']; ?>">
+						<input type="text" name="location" placeholder="Location" style="width:60%" value="<?php echo $device_obj['location']; ?>">
+						<input type="text" name="city" placeholder="City" style="width:60%" value="<?php echo $device_obj['city']; ?>">
+						<input type="text" name="mobile_number" placeholder="Mobile Number" style="width:60%" value="<?php echo $device_obj['mobile_number']; ?>">
 						<br><br>
-						<button type="submit" class="btn">Add</button>
+						<button type="submit" class="btn">Edit</button>
 					</form>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-//if(empty($_SESSION['loggedin'])) header('Location: login.php');
+if(empty($_SESSION['loggedin'])) header('Location: /admin/login.php');
 
 @$AdminObject = $_SESSION['AdminObject'];
 
@@ -27,7 +27,7 @@ $admin_list = $admin->getAll();
 	<head>
 		<title>Admin - Airduino</title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="theme-color" content="#2196F3">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<link rel="stylesheet" href="/admin/styles/style.css">
 	</head>
@@ -85,7 +85,9 @@ $admin_list = $admin->getAll();
 								<tr>
 									<td>$name</td>
 									<td>$username</td>
-									<td></td>
+									<td>
+										<a href='/admin/admins_edit.php?id=$id'>Edit</a>
+									</td>
 									<td>
 										<a style='color:red;' href='/api/admin/delete.php?id=$id'>Delete</a>
 									</td>
