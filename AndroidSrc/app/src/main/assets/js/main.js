@@ -551,7 +551,7 @@ var launchAirQuality = (id)=>{
 	        var time_labels = [];
 	        var temp_data = [];
 	
-	        $("#Hhistory").html("");
+	        $("#Ahistory").html("");
 	        
 	        if(result.length > 10){
 	            var resultSlice = result.slice(result.length - 10);
@@ -579,7 +579,7 @@ var launchAirQuality = (id)=>{
 	                </li>
 	            `;
 	
-	            $("#Hhistory").append(tpl);
+	            $("#Ahistory").append(tpl);
 	
 	        });
 	
