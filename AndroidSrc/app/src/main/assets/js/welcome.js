@@ -171,16 +171,3 @@ var register = ()=>{
     }
 
 }
-
-var setupTerms = ()=>{
-  $.ajax({
-    type:"GET",
-    url:"assets/terms.txt",
-    success: result=>{
-      $("#termsContainer").html(result);
-    }
-  }).fail(()=>{
-    $("#termsContainer").html("Ask the app developer for the copy of the terms and conditions.");
-  });
-};
-

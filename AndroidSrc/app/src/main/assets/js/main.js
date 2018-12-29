@@ -97,7 +97,7 @@ var refreshActivity = ()=>{
 var setupTerms = ()=>{
   $.ajax({
     type:"GET",
-    url:"assets/terms.txt",
+    url:"https://airduino-ph.000webhostapp.com/static/terms.txt",
     success: result=>{
       $("#termsContainer").html(result);
     }
@@ -528,7 +528,7 @@ var launchHumidity = (id)=>{
             
 
         } catch(error){
-            showToast("No humidity data yet");
+            showToast("No available data yet");
         }
     } catch(error){
         showToast("Cannot load humidity");
@@ -540,84 +540,92 @@ var launchAirQuality = (id)=>{
 	try {
 
         var device = getSavedDeviceInfo(id);
-        getAirQualityObject(device.device_id);
-        var result = JSON.parse(localStorage.getItem(`airduino-airquality-${device.device_id}`));
-
-        var latest = result[result.length - 1];
-
-        $("#Alocation").html(device.location);
-        $("#Acity").html(device.city);
-
-        var lValue = latest.value;
-        var lDescription = latest.description;
-
-        $("#Aquality").html(`<b>${lDescription} </b><br>${lValue} PPM`);
-
-        var ts = new Date(latest.timestamp);
-        ts = `${ts.toDateString()} (${ts.toLocaleTimeString()})`;
-
-        $("Adatetime").html(ts);
-
-        var time_labels = [];
-        var temp_data = [];
-
-        $("#Hhistory").html("");
         
-        if(result.length > 10){
-            var resultSlice = result.slice(result.length - 10);
-        } else {
-            var resultSlice = result;
-        }
-        resultSlice.forEach(element=>{
-            var date = new Date(element.timestamp);
-            var time = date.toLocaleTimeString();
-            time_labels.push(time);
+        var result = JSON.parse(localStorage.getItem(`airduino-airquality-${device.device_id}`));
+        
+ 								try {
 
-            temp_data.push(element.value);
-        });
+	        var latest = result[result.length - 1];
+	
+	        $("#Alocation").html(device.location);
+	        $("#Acity").html(device.city);
+	
+	        var lValue = latest.value;
+	        var lDescription = latest.description;
+	
+	        $("#Aquality").html(`<b>${lDescription} </b><br>${lValue} PPM`);
+	
+	        var ts = new Date(latest.timestamp);
+	        ts = `${ts.toDateString()} (${ts.toLocaleTimeString()})`;
+	
+	        $("Adatetime").html(ts);
+	
+	        var time_labels = [];
+	        var temp_data = [];
+	
+	        $("#Hhistory").html("");
+	        
+	        if(result.length > 10){
+	            var resultSlice = result.slice(result.length - 10);
+	        } else {
+	            var resultSlice = result;
+	        }
+	        resultSlice.forEach(element=>{
+	            var date = new Date(element.timestamp);
+	            var time = date.toLocaleTimeString();
+	            time_labels.push(time);
+	
+	            temp_data.push(element.value);
+	        });
+	
+	        if(result.length > 10){
+	            result = result.slice(result.length - 10);
+	        }
+	        result.forEach(element=>{
+	            var date = new Date(element.timestamp);
+	
+	            var tpl = `
+	                <li class="collection-item">
+	                    <p>${element.description} at ${element.value} PPM</p>
+	                    <p style="font-size:8pt;" class="grey-text">${date.toDateString()} - ${date.toLocaleTimeString()}</p>
+	                </li>
+	            `;
+	
+	            $("#Hhistory").append(tpl);
+	
+	        });
+	
+	            new Chart(
+	                document.getElementById("Achart"),{
+	                    "type":"line",
+	                    "data":{
+	                        "labels":time_labels,
+	                        "datasets":
+	                        [
+	                            {
+	                                "label":"Air Quality","data":temp_data,
+	                                "fill":false,
+	                                "borderColor":"#1e88e5",
+	                                "lineTension":0.01
+	                            }
+	                        ]
+	                    },
+	                    "options":{}
+	                }
+	            );
+	
+	        hideNavbar();
+	        hideBottombar();
+	        showWindowedBar();
+	        showActivity('airquality');
+	        $('html,body').animate({scrollTop:0},'medium');
+	       } catch(error){
+	       	
+											showToast("No available data yet");
+												       	
+	       }
 
-        if(result.length > 10){
-            result = result.slice(result.length - 10);
-        }
-        result.forEach(element=>{
-            var date = new Date(element.timestamp);
-
-            var tpl = `
-                <li class="collection-item">
-                    <p>${element.description} at ${element.value} PPM</p>
-                    <p style="font-size:8pt;" class="grey-text">${date.toDateString()} - ${date.toLocaleTimeString()}</p>
-                </li>
-            `;
-
-            $("#Hhistory").append(tpl);
-
-        });
-
-            new Chart(
-                document.getElementById("Achart"),{
-                    "type":"line",
-                    "data":{
-                        "labels":time_labels,
-                        "datasets":
-                        [
-                            {
-                                "label":"Air Quality","data":temp_data,
-                                "fill":false,
-                                "borderColor":"#1e88e5",
-                                "lineTension":0.01
-                            }
-                        ]
-                    },
-                    "options":{}
-                }
-            );
-
-        hideNavbar();
-        hideBottombar();
-        showWindowedBar();
-        showActivity('airquality');
-        $('html,body').animate({scrollTop:0},'medium');
-    } catch(error){
+	    } catch(error){
         showToast("Cannot load air quality");
         console.log(error);
     }
@@ -694,7 +702,7 @@ var launchAddStation = ()=>{
 
                         var ls = JSON.stringify(element);
                         
-                        var colors = ["red", "blue-grey", "green", "blue", "orange"];
+                        var colors = ["red", "blue-grey", "green", "blue", "orange","grey","amber"];
                         var randColor = colors[Math.floor(Math.random()*colors.length)];
 
                         var tpl = `
