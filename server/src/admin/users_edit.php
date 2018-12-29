@@ -13,6 +13,8 @@ if(@$AdminObject){
 	$admin_username = @$AdminObject['username'];
 }
 
+$id = $_GET['id'];
+
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
 require_once("../class/User.class.php");
@@ -69,9 +71,9 @@ if(empty($user_info)) die("User not found");
 					<h3>Users > Edit</h3> <a href="/admin/users.php" class="btn btn_small">Back</a>
 					<br><br>
 					<form method="POST" action="../api/user/edit.php?id=<?php echo $id; ?>">
-						<input type="text" name="first_name" placeholder="First Name" style="width:60%" value="<?php echo $user_obj['first_name']; ?>">
-						<input type="text" name="last_name" placeholder="Last Name" style="width:60%" value="<?php echo $user_obj['last_name']; ?>">
-						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $user_obj['username']; ?>">
+						<input type="text" name="first_name" placeholder="First Name" style="width:60%" value="<?php echo $user_info['first_name']; ?>">
+						<input type="text" name="last_name" placeholder="Last Name" style="width:60%" value="<?php echo $user_info['last_name']; ?>">
+						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $user_info['username']; ?>">
 						<input type="password" name="password" placeholder="Password" style="width:60%">
 						<br><br>
 						<button type="submit" class="btn">Edit</button>

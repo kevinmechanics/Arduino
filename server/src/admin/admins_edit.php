@@ -37,7 +37,7 @@ if(empty($admin_info)) die("Admin not found");
 		<nav>
 			<a class="title" href="#!"><b>Airduino</b> Admin</a>
 		</nav>
-		<div>
+		<div> 
 			<div class="row">
 				<div class="col s2">
 					<h4>Navigation</h4>
@@ -69,8 +69,8 @@ if(empty($admin_info)) die("Admin not found");
 					<h3>Admins > Edit</h3> <a href="/admin/admins.php" class="btn btn_small">Back</a>
 					<br><br>
 					<form method="POST" action="../api/admin/edit.php?id=<?php echo $id; ?>">
-						<input type="text" name="name" placeholder="Name" style="width:60%" value="<?php echo $admin_obj['name']; ?>">
-						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $admin_obj['username']; ?>">
+						<input type="text" name="name" placeholder="Name" style="width:60%" value="<?php echo $admin_info['name']; ?>">
+						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $admin_info['username']; ?>">
 						<input type="password" name="password" placeholder="Password" style="width:60%">
 						<br><br>
 						<button type="submit" class="btn">Edit</button>

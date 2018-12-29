@@ -10,5 +10,6 @@ $device_id = $_REQUEST['device_id'];
 
 $result = $air_quality->getLastFifty($device_id);
 
+header('Content-Type: application/json');
 echo json_encode($result);
 ?>

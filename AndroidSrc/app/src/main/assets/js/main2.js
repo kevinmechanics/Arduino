@@ -36,6 +36,8 @@ var addSavedStation = (obj)=>{
     getTemperatureObject(obj.device_id);
     getHumidityObject(obj.device_id);
     getAirQualityObject(obj.device_id);
+    
+    prepareHome();
 };
 
 var deleteSavedStation = (id)=>{
@@ -83,7 +85,7 @@ var editAccount = ()=>{
                 $.ajax({
                     type:"POST",
                     cache:'false',
-                    url:"http://airduino-ph.000webhostapp.com/api/user/editAccount.php",
+                    url:"https://airduino-ph.000webhostapp.com/api/user/editAccount.php",
                     data: {
                         id:i,
                         first_name:fn,

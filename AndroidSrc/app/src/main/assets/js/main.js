@@ -94,18 +94,6 @@ var refreshActivity = ()=>{
     showBottombar();
 }
 
-var setupTerms = ()=>{
-  $.ajax({
-    type:"GET",
-    url:"https://airduino-ph.000webhostapp.com/static/terms.txt",
-    success: result=>{
-      $("#termsContainer").html(result);
-    }
-  }).fail(()=>{
-    $("#termsContainer").html("Ask the app developer for the copy of the terms and conditions.");
-  });
-};
-
 
 var getSavedDevices = ()=>{
     if(localStorage.getItem("airduino-devices")){
@@ -303,7 +291,7 @@ var getTemperatureObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://airduino-ph.000webhostapp.com/api/temperature/getLastFifty.php',
+        url:'https://airduino-ph.000webhostapp.com/api/temperature/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -321,7 +309,7 @@ var getHumidityObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://airduino-ph.000webhostapp.com/api/humidity/getLastFifty.php',
+        url:'https://airduino-ph.000webhostapp.com/api/humidity/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -339,7 +327,7 @@ var getAirQualityObject = (id)=>{
 
     $.ajax({
         type:'GET',
-        url:'http://airduino-ph.000webhostapp.com/api/airquality/getLastFifty.php',
+        url:'https://airduino-ph.000webhostapp.com/api/airquality/getLastFifty.php',
         data: {
             device_id:id
         },
@@ -665,7 +653,7 @@ var setupNewsFeed = ()=>{
 		if(navigator.onLine){
 			$.ajax({
 				type:"GET",
-				url: "http://airduino-ph.000webhostapp.com/api/newsfeed/getAll.php",
+				url: "https://airduino-ph.000webhostapp.com/api/newsfeed/getAll.php",
 				cache: 'false',
 				success: result=>{
 					localStorage.setItem("airduino-newsfeed", result);
@@ -694,7 +682,7 @@ var launchAddStation = ()=>{
         $.ajax({
             type:"GET",
             cache:"false",
-            url:"http://airduino-ph.000webhostapp.com/api/device/getAll.php",
+            url:"https://airduino-ph.000webhostapp.com/api/device/getAll.php",
             success: result=>{
                 var result = JSON.parse(result);
                 result.forEach(element=>{

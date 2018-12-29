@@ -67,7 +67,7 @@ var signIn = ()=>{
 
             $.ajax({
                 type:"POST",
-                url:"http://airduino-ph.000webhostapp.com/api/user/appLogin.php",
+                url:"https://airduino-ph.000webhostapp.com/api/user/appLogin.php",
                 data: {
                     username: u,
                     password: p
@@ -137,7 +137,7 @@ var register = ()=>{
 
                     $.ajax({
                         type:"POST",
-                        url:"http://airduino-ph.000webhostapp.com/api/user/register.php",
+                        url:"https://airduino-ph.000webhostapp.com/api/user/register.php",
                         cache:'false',
                         data: {
                             first_name: fn,

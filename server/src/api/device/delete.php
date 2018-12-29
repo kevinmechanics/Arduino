@@ -10,7 +10,7 @@ require_once("../../class/Device.class.php");
 
 $device = new Device($mysqli);
 
-$id = strip_tags($_POST['id']);
+$id = strip_tags($_GET['id']);
 
 $device->delete($id);
 

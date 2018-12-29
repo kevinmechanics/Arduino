@@ -93,7 +93,7 @@ $user_list = $user->getAll();
 										<td>$last_name</td>
 										<td>$username</td>
 										<td>
-											<a href='/admin/devices_edit.php?id=$id'>Edit</a>
+											<a href='/admin/users_edit.php?id=$id'>Edit</a>
 										</td>
 										<td>
 											<a style='color:red;' href='/api/user/delete.php?id=$id'>Delete</a>

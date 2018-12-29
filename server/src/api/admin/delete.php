@@ -10,7 +10,7 @@ require_once("../../class/Admin.class.php");
 
 $admin = new Admin($mysqli);
 
-$id = strip_tags($_POST['id']);
+$id = strip_tags($_GET['id']);
 
 $admin->delete($id);
 

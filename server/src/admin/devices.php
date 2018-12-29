@@ -82,6 +82,7 @@ $dev_list = $device->getAll();
 								$location = $dev['location'];
 								$city = $dev['city'];
 								$mobile_number = $dev['mobile_number'];
+								$id = $dev['id'];
 								echo "
 									<tr>
 										<td>$device_id</td>

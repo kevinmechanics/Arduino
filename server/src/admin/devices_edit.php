@@ -13,6 +13,7 @@ if(@$AdminObject){
 	$admin_username = @$AdminObject['username'];
 }
 
+$id = $_GET['id'];
 
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
@@ -69,10 +70,10 @@ if(empty($device_info)) die("Device not found");
 					<h3>Devices > Edit</h3> <a href="/admin/devices.php" class="btn btn_small">Back</a>
 					<br><br>
 					<form method="POST" action="../api/device/edit.php?id=<?php echo $id; ?>">
-						<input type="text" name="device_id" placeholder="Device ID" style="width:60%" value="<?php echo $device_obj['device_id']; ?>">
-						<input type="text" name="location" placeholder="Location" style="width:60%" value="<?php echo $device_obj['location']; ?>">
-						<input type="text" name="city" placeholder="City" style="width:60%" value="<?php echo $device_obj['city']; ?>">
-						<input type="text" name="mobile_number" placeholder="Mobile Number" style="width:60%" value="<?php echo $device_obj['mobile_number']; ?>">
+						<input type="text" name="device_id" placeholder="Device ID" style="width:60%" value="<?php echo $device_info['device_id']; ?>">
+						<input type="text" name="location" placeholder="Location" style="width:60%" value="<?php echo $device_info['location']; ?>">
+						<input type="text" name="city" placeholder="City" style="width:60%" value="<?php echo $device_info['city']; ?>">
+						<input type="text" name="mobile_number" placeholder="Mobile Number" style="width:60%" value="<?php echo $device_info['mobile_number']; ?>">
 						<br><br>
 						<button type="submit" class="btn">Edit</button>
 					</form>

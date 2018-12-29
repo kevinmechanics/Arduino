@@ -12,6 +12,8 @@ if(@$AdminObject){
 	$admin_username = @$AdminObject['username'];
 }
 
+$id = $_GET['id'];
+
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
 require_once("../class/Newsfeed.class.php");
@@ -68,8 +70,8 @@ if(empty($newsfeed_info)) die("Entry not found");
 					<h3>Alerts > Edit</h3> <a href="/admin/alerts.php" class="btn btn_small">Back</a>
 					<br><br>
 					<form method="POST" action="../api/newsfeed/edit.php?id=<?php echo $id; ?>">
-						<input type="text" name="title" placeholder="Title" style="width:60%" value="<?php echo $newsfeed_obj['title']; ?>">
-						<textarea name="content" placeholder="Content" style="width:60%"><?php echo $newsfeed_obj['content']; ?></textarea>
+						<input type="text" name="title" placeholder="Title" style="width:60%" value="<?php echo $newsfeed_info['title']; ?>">
+						<textarea name="content" placeholder="Content" style="width:60%"><?php echo $newsfeed_info['content']; ?></textarea>
 						<br><br>
 						<button type="submit" class="btn">Edit</button>
 					</form>

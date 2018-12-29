@@ -10,7 +10,7 @@ require_once("../../class/Newsfeed.class.php");
 
 $newsfeed = new Newsfeed($mysqli);
 
-$id = strip_tags($_POST['id']);
+$id = strip_tags($_GET['id']);
 
 $newsfeed->delete($id);
 
