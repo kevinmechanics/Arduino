@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         // Load the page when no internet
         mWebView.setWebViewClient(new WebViewClient(){
             public void onRecievedError(WebView view, int errorCode, String description, String failingUrl){
-                mWebView.loadUrl("file:///android_asset/welcome.html");
+                mWebView.loadUrl("file:///android_asset/nointernet.html");
             }
         });
 
@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        mWebView.loadUrl("file:///android_asset/welcome.html");
+        mWebView.loadUrl("file:///android_asset/nointernet.html");
     }
 
     @Override
