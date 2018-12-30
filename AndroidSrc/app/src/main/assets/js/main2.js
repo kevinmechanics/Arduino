@@ -126,3 +126,12 @@ var editAccount = ()=>{
     }
 
 };
+
+var setDarkMode = (opt)=>{
+	localStorage.setItem('airduino-darkmode',opt);
+	if(opt == "on"){
+		location.replace('dark.html');
+	} else {
+		location.replace('main.html');
+	}
+};

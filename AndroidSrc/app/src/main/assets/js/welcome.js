@@ -16,7 +16,16 @@ var loginCheck = ()=>{
     if(localStorage.getItem('airduino-loggedin')){
         var li = localStorage.getItem('airduino-loggedin');
         if(li == 'true') {
-            location.replace('main.html');
+           if(localStorage.getItem('airduino-darkmode')){
+           	 var stt = localStorage.getItem('airduino-darkmode');
+           	 if(stt == 'on'){
+           	 	location.replace('dark.html');
+           	 } else {
+           	 	location.replace('index.html');
+           	 }
+           } else {
+         					location.replace('index.html');
+           } 
         } 
     }
 };

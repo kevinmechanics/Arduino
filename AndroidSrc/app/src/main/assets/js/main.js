@@ -1,4 +1,5 @@
 $(document).ready(function(){
+				
     //loginCheck();
     $('.dropdown-trigger').dropdown();
     $('.modal').modal();

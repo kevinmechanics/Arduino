@@ -10,17 +10,37 @@
         <script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="assets/materialize/js/materialize.min.js"></script>
         <script src="assets/js/Chart.min.js"></script>
+        <style>
+        	
+        	.card {
+        		
+        		background-color: #37474f !important;
+        		
+        	}
+        	.bottombar {
+        		background-color: #37474f !important;
+        		
+        	}
+        	
+        	ul.collection {
+        		
+        		background-color: #263238 !important;
+        		
+        		border:0;
+        	}
+        	
+        </style>
     </head>
-    <body class="grey-text text-darken-2">
+    <body class="blue-grey darken-4 white-text">
 
         <div class="splashscreen grey darken-2">
         </div>
 
         <!-- regular navbar -->
-        <nav class='navbar white z-depth-0' id="regularNavbar">
+        <nav class='navbar blue-grey darken-4 z-depth-0' id="regularNavbar">
             <div class="left"></div>
             <div class="right" style="margin-right:5%">
-                    <a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons grey-text text-darken-2">more_vert</i></a>
+                    <a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons grey-text">more_vert</i></a>
             </div>
             <ul id='dropdown1' class='dropdown-content'>
                 <li><a href="https://goo.gl/forms/YOQelHn2ATyPdzx42" class="black-text">Report a Problem</a></li>
@@ -30,10 +50,10 @@
         <!-- regular navbar -->
 
         <!-- windowed navbar -->
-        <nav class='navbar white z-depth-0' id="windowedNavbar">
+        <nav class='navbar blue-grey darken-4 z-depth-0' id="windowedNavbar">
             <div class="left"></div>
             <div class="right" style="margin-right:5%">
-                <a href='#!' onclick="refreshActivity(); showActivity('home');"><i class="material-icons grey-text text-darken-2">close</i></a>
+                <a href='#!' onclick="refreshActivity(); showActivity('home');"><i class="material-icons grey-text">close</i></a>
             </div>
         </nav>
         <!-- .windowed navbar -->
@@ -111,8 +131,8 @@
                     <br>
                     <h4>Account</h4><br><br><br>
                 </center>
-                <ul class="collection">
-                    <li class="collection-item avatar" style="padding-top:20px;">
+                <ul class="collection blue-grey darken-4">
+                    <li class="collection-item avatar blue-grey darken-4" style="padding-top:20px;">
                         <span class="circle" style="padding-left:10px;">
                             <i class="material-icons">person_outline</i>
                         </span>
@@ -121,35 +141,35 @@
                             <span style="font-size:10pt;">@<span class="username">username</span></span>
                         </p>
                     </li>
-                    <li class="collection-item">
-                        <a href="#!" class="grey-text text-darken-1" onclick="launchAddStation();">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#!" class="white-text text-darken-1" onclick="launchAddStation();">
                             <i class="material-icons" style="margin-right:10px;">add</i> <span>Add an Airduino Station</span>
                         </a>
                     </li>
-                    <li class="collection-item">
-                        <a href="#savedstations" onclick="prepareSavedStations();" class="modal-trigger grey-text text-darken-1">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#savedstations" onclick="prepareSavedStations();" class="modal-trigger white-text text-darken-1">
                             <i class="material-icons" style="margin-right:10px;">list</i> <span>Saved Airduino Stations</span>
                         </a>
                     </li>
-                    <li class="collection-item">
-                        <a href="#aboutairduino" class="modal-trigger grey-text text-darken-1">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#aboutairduino" class="modal-trigger white-text text-darken-1">
                             <i class="material-icons" style="margin-right:10px;">info</i> <span>About Airduino</span>
                         </a>
                     </li>
-                    <li class="collection-item">
-                        <a href="#accountsettings" class="modal-trigger grey-text text-darken-1">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#accountsettings" class="modal-trigger white-text text-darken-1">
                             <i class="material-icons" style="margin-right:10px;">person</i> <span>Account Settings</span>
                         </a>
                     </li>
                     
-                    <li class="collection-item">
-                        <a href="#!" onclick="setDarkMode('on')" class="grey-text text-darken-1">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#!" onclick="setDarkMode('off')" class="white-text text-darken-1">
                             <i class="material-icons" style="margin-right:10px;">brightness_2</i> <span>Toggle Dark Mode</span>
                         </a>
                     </li>
                     
-                    <li class="collection-item">
-                        <a href="#logout" class="modal-trigger grey-text text-darken-1">
+                    <li class="collection-item blue-grey darken-4 white-text">
+                        <a href="#logout" class="modal-trigger white-text text-darken-1">
                             <i class="material-icons" style="margin-right:10px;">lock</i> <span>Sign out</span>
                         </a>
                     </li>
@@ -168,7 +188,7 @@
         <div class="activity" id="temperatureActivity">
             <div class="content">
                 <center>
-					<div class="card-title">Temperature</div>
+					<div class="card-title white-text">Temperature</div>
 					<br><br>
                     <h5 id="Tlocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Tcity">Dasmarinas City</p>
@@ -180,19 +200,19 @@
                 <div style="margin-left:20px !important;margin-right:20px !important">
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Chart</span></center><br>
-                            <canvas id="Tchart" width="50px" height="30px"></canvas>
+                            <center><span class="card-title white-text">Chart</span></center><br>
+                            <canvas id="Tchart" width="50px" height="30px" class="grey lighten-1"></canvas>
                         </div>
                         <div class="card-action" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
-                            <a href="#Texport" class="modal-trigger grey-text text-darken-2">Export</a>
+                            <a href="#Texport" class="modal-trigger white-text">Export</a>
                         </div>
                     </div>
                     <br>
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Previous 10 Record</span></center><br>
+                            <center><span class="card-title white-text">Previous 10 Record</span></center><br>
                             <br>
-                            <ul class="collection" id="Thistory">
+                            <ul class="collection blue-grey-text" id="Thistory">
                                 <li class="collection-item">
                                     <p>50°C</p>
                                     <p style="font-size:8pt;" class="grey-text">Nov 18, 2018 at 5:26 PM</p>
@@ -203,7 +223,7 @@
                 </div>
 
                 <!-- temp export modal -->
-                <div class="modal modal-fixed-footer" id="Texport">
+                <div class="modal modal-fixed-footer blue-grey darken-3" id="Texport">
                     <div class="modal-content">
                         <h5>Export</h5>
                         <br>
@@ -216,7 +236,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer blue-grey darken-2">
                         <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                     </div>
                 </div>
@@ -231,7 +251,7 @@
         <div class="activity" id="humidityActivity">
             <div class="content">
                 <center>
-					<div class="card-title">Humidity</div>
+					<div class="card-title white-text">Humidity</div>
 					<br><br>
                     <h5 id="Hlocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Hcity">Dasmarinas City</p>
@@ -243,20 +263,20 @@
                 <div style="margin-left:20px !important;margin-right:20px !important">
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Chart</span></center><br>
-                            <canvas id="Hchart" width="50px" height="30px"></canvas>
+                            <center><span class="card-title white-text">Chart</span></center><br>
+                            <canvas id="Hchart" width="50px" height="30px" class="grey lighten-1"></canvas>
                         </div>
                         <div class="card-action" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
-                            <a href="#Hexport" class="modal-trigger grey-text text-darken-2">Export</a>
+                            <a href="#Hexport" class="modal-trigger white-text">Export</a>
                         </div>
                     </div>
                     <br>
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Previous 10 Record</span></center><br>
+                            <center><span class="card-title white-text">Previous 10 Record</span></center><br>
                             <br>
-                            <ul class="collection" id="Hhistory">
-                                <li class="collection-item">
+                            <ul class="collection blue-grey-text" id="Hhistory">
+                                <li class="collection-item blue-grey-text">
                                     <p>50°C</p>
                                     <p style="font-size:8pt;" class="grey-text">Nov 18, 2018 at 5:26 PM</p>
                                 </li>
@@ -266,7 +286,7 @@
                 </div>
 
                 <!-- humidity export modal -->
-                <div class="modal modal-fixed-footer" id="Hexport">
+                <div class="modal modal-fixed-footer blue-grey darken-3" id="Hexport">
                     <div class="modal-content">
                         <h5>Export</h5>
                         <br>
@@ -279,7 +299,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer blue-grey darken-2">
                         <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                     </div>
                 </div>
@@ -293,7 +313,7 @@
 		<div class="activity" id="airqualityActivity">
             <div class="content">
                 <center>
-					<div class="card-title">Air Quality</div>
+					<div class="card-title white-text">Air Quality</div>
 					<br><br>
                     <h5 id="Alocation">Brgy. Sta Fe</h5>
                     <p class="grey-text" id="Acity">Dasmarinas City</p>
@@ -305,19 +325,19 @@
                 <div style="margin-left:20px !important;margin-right:20px !important">
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Chart</span></center><br>
-                            <canvas id="Achart" width="50px" height="30px"></canvas>
+                            <center><span class="card-title white-text">Chart</span></center><br>
+                            <canvas id="Achart" width="50px" height="30px" class="grey lighten-1"></canvas>
                         </div>
                         <div class="card-action" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
-                            <a href="#Aexport" class="modal-trigger grey-text text-darken-2">Export</a>
+                            <a href="#Aexport" class="modal-trigger white-text">Export</a>
                         </div>
                     </div>
                     <br>
                     <div class="card">
                         <div class="card-content">
-                            <center><span class="card-title">Previous 10 Record</span></center><br>
+                            <center><span class="card-title white-text">Previous 10 Record</span></center><br>
                             <br>
-                            <ul class="collection" id="Ahistory">
+                            <ul class="collection blue-grey-text" id="Ahistory">
                                 <li class="collection-item">
                                     <p>50°C</p>
                                     <p style="font-size:8pt;" class="grey-text">Nov 18, 2018 at 5:26 PM</p>
@@ -327,8 +347,8 @@
                     </div>
                 </div>
 
-                <!-- temp export modal -->
-                <div class="modal modal-fixed-footer" id="Aexport">
+                <!-- air quality export modal -->
+                <div class="modal modal-fixed-footer blue-grey darken-3" id="Aexport">
                     <div class="modal-content">
                         <h5>Export</h5>
                         <br>
@@ -341,11 +361,11 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer blue-grey darken-2">
                         <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                     </div>
                 </div>
-                <!-- temp export modal -->
+                <!-- air quality export modal -->
 
                 <br><br><br><br><br>
             </div>
@@ -413,17 +433,17 @@
         <!-- bottombar -->
         <div class="bottombar">
             <div class="col s12">
-                <ul class="tabs tabs-fixed-width">
-                    <li class="tab col s3"><a href="#" onclick="showActivity('home');"><i class="material-icons grey-text text-darken-2">home</i></a></li>
-                    <li class="tab col s3"><a href="#" onclick="showActivity('newsfeed');"><i class="material-icons grey-text text-darken-2">comment</i></a></li>
-                    <li class="tab col s3"><a href="#" onclick="showActivity('account')"><i class="material-icons grey-text text-darken-2">account_circle</i></a></li>
+                <ul class="tabs blue-grey darken-3 tabs-fixed-width">
+                    <li class="tab col s3"><a href="#" onclick="showActivity('home');"><i class="material-icons grey-text text-lighten-2">home</i></a></li>
+                    <li class="tab col s3"><a href="#" onclick="showActivity('newsfeed');"><i class="material-icons grey-text text-lighten-2">comment</i></a></li>
+                    <li class="tab col s3"><a href="#" onclick="showActivity('account')"><i class="material-icons grey-text text-lighten-2">account_circle</i></a></li>
                 </ul>
             </div>
         </div>
         <!-- bottombar -->
 
         <!-- terms and conditions modal -->
-        <div id="termsconditions" class="modal modal-fixed-footer">
+        <div id="termsconditions" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>Terms and Conditions</h4>
 		    <br>
@@ -467,14 +487,14 @@ By continuing to access or use our Service after those revisions become effectiv
 		    </p>
 		    
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                 </div>
             </div>
             <!-- .terms and conditions modal -->
     
             <!-- privacy policy modal -->
-            <div id="privacypolicy" class="modal modal-fixed-footer">
+            <div id="privacypolicy" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>Privacy Policy</h4>
                     <p>                    	
@@ -572,26 +592,26 @@ If you have any questions about this Privacy Policy, please contact us:
 By email: airduinoapplication@gmail.com<br>
                     </p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                 </div>
             </div>
             <!-- .privacy policy modal -->
 
             <!-- about modal -->
-            <div id="aboutairduino" class="modal modal-fixed-footer">
+            <div id="aboutairduino" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>About Airduino</h4>
                     <p>2018.</p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                 </div>
             </div>
             <!-- .about modal -->
 
             <!-- account settings modal -->
-            <div id="accountsettings" class="modal modal-fixed-footer">
+            <div id="accountsettings" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>Account Settings</h4>
                     <br>
@@ -615,7 +635,7 @@ By email: airduinoapplication@gmail.com<br>
                         </div>
                     </p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                     <a href="#!" onclick="editAccount();" class="waves-effect waves-blue btn-flat">Edit</a>
                 </div>
@@ -623,26 +643,26 @@ By email: airduinoapplication@gmail.com<br>
             <!-- .account settings modal -->
 
             <!-- saved stations modal -->
-            <div id="savedstations" class="modal modal-fixed-footer">
+            <div id="savedstations" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>Saved Airduino Stations</h4>
                     <br>
-                    <ul class="collection" id="savedStationsListManage"></ul>
+                    <ul class="collection black-text" id="savedStationsListManage"></ul>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                 </div>
             </div>
             <!-- .saved stations modal -->
 
             <!-- logout modal -->
-            <div id="logout" class="modal modal-fixed-footer">
+            <div id="logout" class="modal modal-fixed-footer blue-grey darken-3">
                 <div class="modal-content">
                     <h4>Are you sure you want to Sign Out?</h4>
                     <br>
                     <p>Your saved Airduino station would be lost if you sign out. Do you still want to proceed?</p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer blue-grey darken-2">
                     <a href="#!" class="modal-close waves-effect waves-red btn-flat">No</a>
                     <a href="#!" onclick="localStorage.clear(); location.replace('index.html');" class="waves-effect waves-green btn-flat">Sign Out</a>
                 </div>
