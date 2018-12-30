@@ -35,13 +35,38 @@ class AirQuality {
 		return $result;
 	}
 	
+	
+	public function getByDeviceId(String $device_id){
+		$this->device_id = $device_id;
+		$stmt = $this->mysqli->prepare("SELECT * FROM `air_quality` WHERE `device_id`=? ORDER BY `id` DESC");
+		$stmt->bind_param("s",$this->device_id);
+		$stmt->execute();
+		$stmt->bind_result($id,$device_id,$value,$description,$timestamp);
+		
+		$array_result = array();
+		while($stmt->fetch()){
+			$result = array(
+				"id"=>$id,
+				"device_id"=>$device_id,
+				"value"=>$value,
+				"description"=>$description,
+				"timestamp"=>$timestamp
+			);
+			
+			$array_result[] = $result;
+		}
+		
+		return $array_result;
+	}
+	
 	public function add(Array $array){
 		$this->device_id = $array['device_id'];
 		$this->value = $array['value'];
 		$this->description = $array['description'];
+		$current_time = date("Y-m-d H:i:s");
 		
-		$stmt = $this->mysqli->prepare("INSERT INTO `air_quality`(`device_id`,`value`,`description`) VALUES (?,?,?)");
-		$stmt->bind_param("sss",$this->device_id,$this->value,$this->description);
+		$stmt = $this->mysqli->prepare("INSERT INTO `air_quality`(`device_id`,`value`,`description`,`timestamp`) VALUES (?,?,?,?)");
+		$stmt->bind_param("ssss",$this->device_id,$this->value,$this->description,$current_time);
 		
 		if($stmt->execute()){
 			return True;

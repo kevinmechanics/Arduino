@@ -59,9 +59,10 @@ class Newsfeed {
 	public function add(Array $array){
 		$this->title = $array["title"];
 		$this->content = $array["content"];
+		$current_time = date("Y-m-d H:i:s");
 		
-		$stmt = $this->mysqli->prepare("INSERT INTO `newsfeed`(`title`,`content`) VALUES(?,?)");
-		$stmt->bind_param("ss",$this->title,$this->content);
+		$stmt = $this->mysqli->prepare("INSERT INTO `newsfeed`(`title`,`content`,`timestamp_created`) VALUES(?,?,?)");
+		$stmt->bind_param("sss",$this->title,$this->content,$current_time);
 		
 		if($stmt->execute()){
 			return True;

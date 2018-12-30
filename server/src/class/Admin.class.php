@@ -104,11 +104,12 @@ class Admin {
         $this->name = $admin_info['name'];
         $this->username = $admin_info['username'];
         $this->password = $admin_info['password'];
+        $current_time = date("Y-m-d H:i:s");
         
         $hash_password = password_hash($this->password,PASSWORD_DEFAULT);
 
-        $stmt = $this->mysqli->prepare("INSERT INTO `administrator`(`name`,`username`,`password`) VALUES(?,?,?)");
-        $stmt->bind_param("sss",$this->name,$this->username,$hash_password);
+        $stmt = $this->mysqli->prepare("INSERT INTO `administrator`(`name`,`username`,`password`,`timestamp_created`) VALUES(?,?,?,?)");
+        $stmt->bind_param("sss",$this->name,$this->username,$hash_password,$current_time);
 
         if($stmt->execute()){
             return True;

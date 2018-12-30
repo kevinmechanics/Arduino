@@ -3,6 +3,7 @@
 	<head>
 		<title>Airduino</title>
 		<meta charset="UTF-8">
+		<meta name="theme-color" content="#2196F3">
 		<link rel="stylesheet" href="/admin/styles/style.css">
 	</head>
 	<body>

@@ -12,13 +12,22 @@ if(@$AdminObject){
 	$admin_username = @$AdminObject['username'];
 }
 
+if(empty($_GET['device_id'])) die("Device ID is Required");
+$device_id = strip_tags($_GET['device_id']);
+
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
 require_once("../class/Device.class.php");
+require_once("../class/Humidity.class.php");
 
 $device = new Device($mysqli);
+$humidity = new Humidity($mysqli);
 
-$dev_list = $device->getAll();
+$device_info = $device->getByDeviceId($device_id);
+if(empty($device_info)) die("Device not found");
+
+$humidity_list = $humidity->getByDeviceId($device_id);
+
 
 ?>
 <!Doctype html>
@@ -63,53 +72,32 @@ $dev_list = $device->getAll();
 					</ul>
 				</div>
 				<div class="col s10">
-					<h3>Devices</h3> <a href="/admin/devices_add.php" class="btn btn_small">Add</a>
+					<h3>Humidity for <?php echo $device_info['location'] . " - " . $device_info['city']; ?></h3>  <a href="/admin/devices.php" class="btn btn_small">Back</a>
 					<table>
 						<thead>
 							<tr>
-								<th>Device ID</th>
-								<th>Location</th>
-								<th>City</th>
-								<th>Mobile Number</th>
-								<th>Temp.</th>
-								<th>Humid.</th>
-								<th>Air Q.</th>
-								<th>Edit</th>
+								<th>Value</th>
+								<th>Timestamp</th>
 								<th>Delete</th>
 							</tr>
 						</thead>
 						<tbody>
 						<?php
-							foreach($dev_list as $dev){
-								$device_id = $dev['device_id'];
-								$location = $dev['location'];
-								$city = $dev['city'];
-								$mobile_number = $dev['mobile_number'];
-								$id = $dev['id'];
+							foreach($humidity_list as $h){
+								$id = $h['id'];
+								$value = $h['value'];
+								$timestamp = $h['timestamp'];
+
 								echo "
-									<tr>
-										<td>$device_id</td>
-										<td>$location</td>
-										<td>$city</td>
-										<td>$mobile_number</td>
-										<td>
-											<a href='/admin/temperature.php?device_id=$device_id'>View</a>
-										</td>
-										<td>
-											<a href='/admin/humidity.php?device_id=$device_id'>View</a>
-										</td>
-										<td>
-											<a href='/admin/airquality.php?device_id=$device_id'>View</a>
-										</td>	
-										<td>
-										<a href='/admin/devices_edit.php?id=$id'>Edit</a>
-									</td>
+								<tr>
+									<td>$value</td>
+									<td>$timestamp</td>
 									<td>
-										<a style='color:red;' href='/api/device/delete.php?id=$id'>Delete</a>
+										<a style='color:red;' href='/api/humidity/delete.php?id=$id'>Delete</a>
 									</td>
-									</tr>
+								</tr>
 								";
-							}
+							}	
 						?>
 						</tbody>
 					</table>					

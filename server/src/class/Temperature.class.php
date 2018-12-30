@@ -33,12 +33,34 @@ class Temperature {
 		return $result;
 	}
 	
+	public function getByDeviceId(String $device_id){
+		$this->device_id = $device_id;
+		$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE `device_id`=? ORDER BY `id` DESC");
+		$stmt->bind_param("s",$this->device_id);
+		$stmt->execute();
+		$stmt->bind_result($id,$device_id,$value,$timestamp);
+		
+		$result_array = array();
+		while($stmt->fetch()){
+			$result = array(
+				"id"=>$id,
+				"device_id"=>$device_id,
+				"value"=>$value,
+				"timestamp"=>$timestamp
+			);
+			$result_array[] = $result;
+		}
+		
+		return $result_array;
+	}
+	
 	public function add(Array $array){
 		$this->device_id = $array['device_id'];
 		$this->value = $array['value'];
+		$current_time = date("Y-m-d H:i:s");
 		
-		$stmt = $this->mysqli->prepare("INSERT INTO `temperature`(`device_id`,`value`) VALUES (?,?)");
-		$stmt->bind_param("ss",$this->device_id,$this->value);
+		$stmt = $this->mysqli->prepare("INSERT INTO `temperature`(`device_id`,`value`,`timestamp`) VALUES (?,?,?)");
+		$stmt->bind_param("sss",$this->device_id,$this->value,$current_time);
 		
 		if($stmt->execute()){
 			return True;
