@@ -76,10 +76,10 @@ try {
 		
 	header("HTTP/1.1 200 Successfully Added Data");
 	$array = array(
-		"code"=>"200",
+		"code"=>200,
 		"message"=>"OK"
 	);
-	
+	echo json_encode($array);
 		
 } catch(Exception $e){
 	
