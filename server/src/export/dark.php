@@ -9,14 +9,13 @@ $device_info = array(
 
 if(!empty($_GET['device_id'])) $device_id = urlencode(strip_tags($_GET['device_id']));
 if(!empty($_GET['data_cat'])) $data_cat = strip_tags($_GET['data_cat']);
-/*
+
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
 require_once("../class/Device.class.php");
 
 $device = new Device($mysqli);
 $device_info = $device->getByDeviceId($device_id);
-*/
 ?>
 <!Doctype html>
 <html>

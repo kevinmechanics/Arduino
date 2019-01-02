@@ -122,6 +122,35 @@ class Temperature {
 		
 		return $array_list;
 	 }
+	 
+	 public function getAllBetween($device_id,$start,$end){
+	 		
+	 		if(!empty($end)){
+	 					 		$stmt = "SELECT * FROM `temperature` WHERE `device_id`=? AND `timestamp`>=? AND `timestamp`< ?";
+								 	$stmt->bind_params("sss",$device_id,$start,$end);
+								 	$stmt->execute();
+								 	$stmt->bind_result($device_id,$value,$timestamp);						
+	 		} else {
+	 				 		$stmt = "SELECT * FROM `temperature` WHERE `device_id`=? AND `timestamp`>=?";
+							 	$stmt->bind_params("ss",$device_id,$start);
+							 	$stmt->execute();
+									$stmt->bind_result($device_id,$value,$timestamp); 			
+	 		}
+	 		
+	 		$array = array();
+	 		
+	 		while($stmt->fetch()){
+	 			$a = array(
+	 				"device_id"=>$device_id,
+	 				"value"=>$value,
+	 				"timestamp"=>$timestamp
+	 			);
+	 			$array[] = $a;
+	 		}
+	 		
+	 		return $a;
+	 		
+	 } 
 
 
 }
