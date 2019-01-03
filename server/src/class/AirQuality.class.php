@@ -148,6 +148,7 @@ class AirQuality {
 	 		
 	 		while($stmt->fetch()){
 	 			$a = array(
+	 			 "id"=>$id,
 	 				"device_id"=>$device_id,
 	 				"value"=>$value,
 	 				"description"=>$description,
