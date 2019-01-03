@@ -111,7 +111,7 @@ switch($data_cat){
 }
 
 $filename = "$data_cat-$location.xlsx";
-header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8");
 header("Content-Disposition: attachment; filename=$filename");
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Origin: *');

@@ -111,7 +111,7 @@ $device_info = $device->getByDeviceId($device_id);
 					<br>
 					<br>
 					<button class="btn btn-large blue darken-2" onclick="download('pdf')">Download PDF</button><br><br>
-					<button class="btn btn-large blue darken-2" onclick="download('xlsx')">Download CSV</button>
+					<button class="btn btn-large blue darken-2" onclick="download('xlsx')">Download XLSX</button>
 			
 			<br><br><br><br><br>
 			</div>
