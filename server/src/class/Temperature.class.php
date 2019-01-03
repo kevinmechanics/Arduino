@@ -126,15 +126,16 @@ class Temperature {
 	 public function getAllBetween($device_id,$start,$end){
 	 		
 	 		if(!empty($end)){
-	 					 		$stmt = "SELECT * FROM `temperature` WHERE `device_id`=? AND `timestamp`>=? AND `timestamp`< ?";
-								 	$stmt->bind_params("sss",$device_id,$start,$end);
-								 	$stmt->execute();
-								 	$stmt->bind_result($device_id,$value,$timestamp);						
+	 			$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE `device_id`=? AND `timestamp`>=? AND `timestamp`< ?");
+					$stmt->bind_param("sss",$device_id,$start,$end);
+					$stmt->execute();
+					$stmt->bind_result($id,$device_id,$value,$timestamp);						
 	 		} else {
-	 				 		$stmt = "SELECT * FROM `temperature` WHERE `device_id`=? AND `timestamp`>=?";
-							 	$stmt->bind_params("ss",$device_id,$start);
-							 	$stmt->execute();
-									$stmt->bind_result($device_id,$value,$timestamp); 			
+	 			$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE `timestamp`>=? AND `device_id`=?");
+	 				 		
+					$stmt->bind_param("ss",$device_id,$start);
+					$stmt->execute();
+					$stmt->bind_result($id,$device_id,$value,$timestamp); 			
 	 		}
 	 		
 	 		$array = array();
@@ -148,7 +149,7 @@ class Temperature {
 	 			$array[] = $a;
 	 		}
 	 		
-	 		return $a;
+	 		return $array;
 	 		
 	 } 
 

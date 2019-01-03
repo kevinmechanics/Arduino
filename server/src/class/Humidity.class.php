@@ -122,6 +122,36 @@ class Humidity {
 		
 		return $array_list;
 	 }
+	 
+	 public function getAllBetween($device_id,$start,$end){
+	 		
+	 		if(!empty($end)){
+	 			$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE `device_id`=? AND `timestamp`>=? AND `timestamp`< ?");
+					$stmt->bind_param("sss",$device_id,$start,$end);
+					$stmt->execute();
+					$stmt->bind_result($id,$device_id,$value,$timestamp);						
+	 		} else {
+	 			$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE `timestamp`>=? AND `device_id`=?");
+	 				 		
+					$stmt->bind_param("ss",$device_id,$start);
+					$stmt->execute();
+					$stmt->bind_result($id,$device_id,$value,$timestamp); 			
+	 		}
+	 		
+	 		$array = array();
+	 		
+	 		while($stmt->fetch()){
+	 			$a = array(
+	 				"device_id"=>$device_id,
+	 				"value"=>$value,
+	 				"timestamp"=>$timestamp
+	 			);
+	 			$array[] = $a;
+	 		}
+	 		
+	 		return $array;
+	 		
+	 } 
 
 
 }

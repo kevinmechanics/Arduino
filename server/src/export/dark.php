@@ -111,7 +111,7 @@ $device_info = $device->getByDeviceId($device_id);
 					<br>
 					<br>
 					<button class="btn btn-large blue darken-2" onclick="download('pdf')">Download PDF</button><br><br>
-					<button class="btn btn-large blue darken-2" onclick="download('csv')">Download CSV</button>
+					<button class="btn btn-large blue darken-2" onclick="download('xlsx')">Download CSV</button>
 			
 			<br><br><br><br><br>
 			</div>
@@ -159,9 +159,9 @@ var download = (format)=>{
 		enddate = encodeURIComponent(enddate);
 		
 			if(format == "pdf"){
-				 window.open(`http://airduino-ph.000webhostapp.com/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				 window.open(`http://airduino-ph.000webhostapp.com/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			} else {
-				window.open(`http://airduino-ph.000webhostapp.com/export/downloadCsv.php?device_id=<?php echo $device_id; ?>&data=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				window.open(`http://airduino-ph.000webhostapp.com/export/downloadXlsx.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			}
 			
 		

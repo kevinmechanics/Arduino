@@ -1,5 +1,5 @@
 <?php
-/*
+ob_start();
 $data_cat = "";
 $device_id = "";
 $startdate = "";
@@ -7,8 +7,8 @@ $enddate = "";
 
 if(!empty($_GET['data_cat'])) $data_cat = strip_tags($_GET['data_cat']);
 if(!empty($_GET['device_id'])) $device_id = strip_tags($_GET['device_id']);
-if(!empty($_GET['startdate'])) $startdate = strip_tags($_GET['startdate']);
-if(!empty($_GET['enddate'])) $enddate = strip_tags($_GET['enddate']);
+if(!empty($_GET['startdate'])) $startdate = str_ireplace("T"," ",strip_tags($_GET['startdate']));
+if(!empty($_GET['enddate'])) $enddate = str_ireplace("T"," ",strip_tags($_GET['enddate']));
 
 require_once("../_system/keys.php");
 require_once("../_system/db.php");
@@ -30,19 +30,35 @@ $a_info = array();
 
 switch($data_cat){
 	case('temperature'):
-		$t_info = $temperature->getByDeviceId($device_id);
-		break;
+		if(empty($startdate)){
+		  $t_info = array_reverse($temperature->getByDeviceId($device_id));
+		} else {
+		  $t_info = $temperature->getAllBetween($device_id,$startdate,$enddate);
+		}
+    		break;
 	case('humidity'):
-		$h_info = $humidity->getByDeviceId($device_id);
-		break;
+		if(empty($startdate)){
+		  $h_info = array_reverse($humidity->getByDeviceId($device_id));
+		} else {
+		  $h_info = $humidity->getAllBetween($device_id,$startdate,$enddate);
+		}
+    		break;
 	case('airquality'):
-		$a_info = $airquality->getyDeviceId($device_id);
-		break;
+		if(empty($startdate)){
+		  $a_info = array_reverse($airquality->getByDeviceId($device_id));
+		} else {
+		  $a_info = $airquality->getAllBetween($device_id,$startdate,$enddate);
+		}
+      		break;
 	default:
-		die();
+		$a = 1;
 		break;
 }
-*/
+
+$location = $device_info['location'];
+$city = $device_info['city'];
+
+
 /*
 PDF Rendering Part
 */
@@ -50,8 +66,7 @@ PDF Rendering Part
 require_once(__DIR__."/_lib/pdf/fpdf.php");
 $pdf = new FPDF('P','mm','Letter');
 
-$dev_loc = $data_info['location'];
-$title = "airduino-$data_cat($dev_loc)";
+$title = "airduino-$data_cat($location)";
 
 $pdf->SetTitle($title);
 $pdf->AddPage();
@@ -67,12 +82,14 @@ $pdf->Text(90,30,"Data Report");
 $pdf->SetXY(20,40);
 
 $pdf->SetFont('Arial','',12);
-$pdf->Cell(70,7,"Data Category: Temperature",1,0,'L');
-$pdf->Cell(110,7,"Location: Brgy. Sta Cruz (Example City)",1,0,'L');
+$pdf->Cell(70,7,"Data Category: $data_cat",1,0,'L');
+$pdf->Cell(110,7,"Location: $location ($city)",1,0,'L');
 $c_y = $pdf->getY();
 $pdf->SetXY(20,7+$c_y);
-$pdf->Cell(90,7,"Start Date: 12/12/2019 10:00:00",1,0,'L');
-$pdf->Cell(90,7,"End Date: 12/12/2019 10:00:00",1,0,'L');
+if(empty($startdate)) $startdate = "ALL ENTRIES";
+if(empty($enddate)) $enddate = "ALL ENTRIES";
+$pdf->Cell(90,7,"Start Date: $startdate",1,0,'L');
+$pdf->Cell(90,7,"End Date: $enddate",1,0,'L');
 
 $c_y = $pdf->getY();
 $pdf->SetXY(20,15+$c_y);
@@ -84,6 +101,18 @@ if($data_cat == "airquality"){
 	$pdf->Cell(80,7,"Timestamp",1,0,'C',"True");
 	$pdf->Cell(60,7,"Description",1,0,'C',"True");
 	$pdf->Cell(40,7,"Value",1,0,'C',"True");
+
+	$pdf->SetTextColor(0,0,0);
+	$pdf->SetFillColor(255,255,255);
+
+	foreach($a_info as $a){
+	  $c_y = $pdf->getY();
+	  $pdf->SetXY(20,7+$c_y);
+	
+	  $pdf->Cell(80,7,$a['timestamp'],1,0,'L');
+	  $pdf->Cell(60,7,$a['description'],1,0,'L');
+	  $pdf->Cell(40,7,$a['value'],1,0,'L');
+	}
 	
 } else {
 	
@@ -91,33 +120,30 @@ if($data_cat == "airquality"){
 	$pdf->Cell(90,7,"Value",1,0,'C',"True");
 	
 	$pdf->SetTextColor(0,0,0);
-	$pdf->SetFillColor(255,255,255);
-	
-	$t_array = array(
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%"),
-		array("timestamp"=>"12/12/2019 10:00:00","value"=>"30%")		
-	);
-	
-	foreach($t_array as $t){
+	$pdf->SetFillColor(255,255,255);	
+
+
+	$ar = array();
+	switch($data_cat){
+	  case('temperature'):
+	    $ar = $t_info;
+	    break;
+	  case('humidity'):
+	    $ar = $h_info;
+	    break;
+	}
+
+	foreach($ar as $a){
 	
 		$c_y = $pdf->getY();
 		$pdf->SetXY(20,7+$c_y);
 		
-		$pdf->Cell(90,7,$t['timestamp'],1,0,'C');
-		$pdf->Cell(90,7,$t['value'],1,0,'C');
+		$pdf->Cell(90,7,$a['timestamp'],1,0,'L');
+		$pdf->Cell(90,7,$a['value'],1,0,'L');
 		
 	}
-	
-	
-	
-		
 }
 
 $pdf->Output('',$title.".pdf",true);
+ob_flush();
 ?>
