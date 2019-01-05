@@ -35,7 +35,7 @@ class Temperature {
 	
 	public function getByDeviceId(String $device_id){
 		$this->device_id = $device_id;
-		$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE `device_id`=? ORDER BY `id` DESC");
+		$stmt = $this->mysqli->prepare("SELECT * FROM `temperature` WHERE `device_id`=? ORDER BY `timestamp` DESC");
 		$stmt->bind_param("s",$this->device_id);
 		$stmt->execute();
 		$stmt->bind_result($id,$device_id,$value,$timestamp);
