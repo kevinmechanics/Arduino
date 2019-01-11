@@ -13,12 +13,14 @@ $first_name = strip_tags($_POST['first_name']);
 $last_name = strip_tags($_POST['last_name']);
 $username = strip_tags($_POST['username']);
 $password = strip_tags($_POST['password']);
+$email = strip_tags($_POST['email']);
 
 $array = array(
     "first_name"=>$first_name,
     "last_name"=>$last_name,
     "username"=>$username,
-    "password"=>$password
+    "password"=>$password,
+    "email"=>$email
 );
 
 if($user->getByUsername($username) == False){

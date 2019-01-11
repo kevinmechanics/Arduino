@@ -10,6 +10,7 @@ class User {
 	public $username;
 	public $password;
 	public $timestamp_created;
+	public $email;
 	
 	function __construct($mysqli){
 		$this->mysqli = $mysqli;
@@ -27,13 +28,15 @@ class User {
 				$last_name = $u['last_name'];
 				$username = $u['username'];
 				$timestamp_created = $u['timestamp_created'];
+				$email = $u['email'];
 
 				$array = array(
 					"id"=>$id,
 					"first_name"=>$first_name,
 					"last_name"=>$last_name,
 					"username"=>$username,
-					"timestamp_created"=>$timestamp_created
+					"timestamp_created"=>$timestamp_created,
+					"email"=>$email
 				);
 
 				$ar[] = $array;
@@ -47,10 +50,10 @@ class User {
 	public function get(Int $id){
 		$this->id = $id;
 		
-		$stmt = $this->mysqli->prepare("SELECT id,first_name,last_name,username,timestamp_created FROM `user` WHERE id=? LIMIT 1");
+		$stmt = $this->mysqli->prepare("SELECT id,first_name,last_name,username,timestamp_created,email FROM `user` WHERE id=? LIMIT 1");
 		$stmt->bind_param("i",$this->id);
 		$stmt->execute();
-		$stmt->bind_result($id,$first_name,$last_name,$username,$timestamp_created);
+		$stmt->bind_result($id,$first_name,$last_name,$username,$timestamp_created,$email);
 		
 		$array = array();
 		
@@ -60,7 +63,8 @@ class User {
 				"first_name"=>$first_name,
 				"last_name"=>$last_name,
 				"username"=>$username,
-				"timestamp_created"=>$timestamp_created
+				"timestamp_created"=>$timestamp_created,
+				"email"=>$email
 			);
 		}
 		
@@ -73,7 +77,7 @@ class User {
 		$stmt = $this->mysqli->prepare("SELECT * FROM `user` WHERE username=? LIMIT 1");
 		$stmt->bind_param("s",$this->username);
 		$stmt->execute();
-		$stmt->bind_result($id,$first_name,$last_name,$username,$password,$timestamp_created);
+		$stmt->bind_result($id,$first_name,$last_name,$username,$password,$timestamp_created,$email);
 		
 		$array = array();
 		
@@ -84,7 +88,8 @@ class User {
 				"last_name"=>$last_name,
 				"username"=>$username,
 				"password"=>$password,
-				"timestamp_created"=>$timestamp_created
+				"timestamp_created"=>$timestamp_created,
+				"email"=>$email
 			);
 		}
 		
@@ -109,14 +114,15 @@ class User {
 	
 	public function add(Array $array){
         $this->first_name = $array['first_name'];
-		$this->last_name = $array['last_name'];
+								$this->last_name = $array['last_name'];
         $this->username = $array['username'];
         $this->password = $array['password'];
+        $this->email = $array['email'];
         
         $hash_password = password_hash($this->password,PASSWORD_DEFAULT);
 
-        $stmt = $this->mysqli->prepare("INSERT INTO `user`(`first_name`,`last_name`,`username`,`password`) VALUES(?,?,?,?)");
-        $stmt->bind_param("ssss",$this->first_name,$this->last_name,$this->username,$hash_password);
+        $stmt = $this->mysqli->prepare("INSERT INTO `user`(`first_name`,`last_name`,`username`,`password`,`email`) VALUES(?,?,?,?,?)");
+        $stmt->bind_param("sssss",$this->first_name,$this->last_name,$this->username,$hash_password,$this->email);
 
         if($stmt->execute()){
             return True;
@@ -128,14 +134,15 @@ class User {
 	public function update(Array $array){
         $this->id = $array['id'];
         $this->first_name = $array['first_name'];
-		$this->last_name =  $array['last_name'];
+								$this->last_name =  $array['last_name'];
         $this->username = $array['username'];
         $this->password = $array['password'];
+        $this->email = $array['email'];
         
         $hash_password = password_hash($this->password,PASSWORD_DEFAULT);
 
-        $stmt = $this->mysqli->prepare("UPDATE `user` SET `first_name`=?, `last_name`=?, `username`=? WHERE id=? LIMIT 1");
-        $stmt->bind_param("sssi",$this->first_name,$this->last_name,$this->username,$this->id);
+        $stmt = $this->mysqli->prepare("UPDATE `user` SET `first_name`=?, `last_name`=?, `username`=?, `email`=? WHERE id=? LIMIT 1");
+        $stmt->bind_param("ssssi",$this->first_name,$this->last_name,$this->username,$this->email,$this->id);
 
         if($stmt->execute()){
             

@@ -63,6 +63,20 @@ class Device {
 		return $array;
 	}
 	
+	public function update(Array $array){
+		$this->id = $array['id'];
+		$this->device_id = $array['device_id'];
+		$this->location = $array['location'];
+		$this->city = $array['city'];
+		$this->mobile_number = $array['mobile_number'];
+		
+		$stmt = $this->mysqli->prepare("UPDATE `device` SET `device_id`=?,`location`=?,`city`=?,`mobile_number`=? WHERE `id`=? LIMIT 1");
+		$stmt->bind_param("sssss",$this->device_id,$this->location,$this->city,$this->mobile_number,$this->id);
+		$stmt->execute();
+		return True;
+		
+	}
+	
 	public function getByDeviceId(String $device_id){
 		$this->device_id = $device_id;
 		$stmt = $this->mysqli->prepare("SELECT * FROM `device` WHERE `device_id`=? LIMIT 1");

@@ -55,7 +55,8 @@ if(@$AdminObject){
 				</div>
 				<div class="col s10">
 					<h3>Welcome, <?php echo $admin_name; ?> (@<?php echo $admin_username;?>)</h3>
-										
+						<br><br>
+						<img src="/static/splash.png" width="250px">
 				</div>
 			</div>
 		</div>

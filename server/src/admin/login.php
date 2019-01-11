@@ -42,7 +42,9 @@ if(!empty($_POST['username'])){
 	</head>
 	<body>
 		<div class="container">
-			<h1><center style="color:#2196F3;">Airduino Admin</center></h1>
+					<center>
+						<img src="/static/splash.png" width="200px">
+					</center>
 			<p><?php if($msg) echo $msg; ?></p>
 			<form method="POST">
 				<input type="text" name="username" placeholder="Username" style="width:100%; margin-bottom:15px;"><br>

@@ -73,6 +73,7 @@ if(empty($user_info)) die("User not found");
 					<form method="POST" action="../api/user/edit.php?id=<?php echo $id; ?>">
 						<input type="text" name="first_name" placeholder="First Name" style="width:60%" value="<?php echo $user_info['first_name']; ?>">
 						<input type="text" name="last_name" placeholder="Last Name" style="width:60%" value="<?php echo $user_info['last_name']; ?>">
+						<input type="email" name="email" placeholder="Email" style="width:60%" value="<?php echo $user_info['email']; ?>">
 						<input type="text" name="username" placeholder="Username" style="width:60%" value="<?php echo $user_info['username']; ?>">
 						<input type="password" name="password" placeholder="Password" style="width:60%">
 						<br><br>

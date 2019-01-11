@@ -60,6 +60,7 @@ if(@$AdminObject){
 					<form method="POST" action="../api/user/add.php">
 						<input type="text" name="first_name" placeholder="First Name" style="width:60%">
 						<input type="text" name="last_name" placeholder="Last Name" style="width:60%">
+						<input type="email" name="email" placeholder="Email" style="width:60%">
 						<input type="text" name="username" placeholder="Username" style="width:60%">
 						<input type="password" name="password" placeholder="Password" style="width:60%">
 						<br><br>

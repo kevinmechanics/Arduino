@@ -104,7 +104,7 @@ class Humidity {
 	 	$this->device_id = $device_id;
 		
 		$stmt = $this->mysqli->prepare("SELECT * FROM `humidity` WHERE device_id=? ORDER BY `id` DESC LIMIT 50");
-		$stmt->bind_param("i",$this->device_id);
+		$stmt->bind_param("s",$this->device_id);
 		$stmt->execute();
 		$stmt->bind_result($id,$device_id,$value,$timestamp);
 		

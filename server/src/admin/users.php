@@ -73,6 +73,7 @@ $user_list = $user->getAll();
 								<th>First Name</th>
 								<th>Last Name</th>
 								<th>Username</th>
+								<th>Email</th>
 								<th>Edit</th>
 								<th>Delete</th>
 							</tr>
@@ -84,6 +85,7 @@ $user_list = $user->getAll();
 								$first_name = $u['first_name'];
 								$last_name = $u['last_name'];
 								$username = $u['username'];
+								$email = $u['email'];
 								$timestamp_created = $u['timestamp_created'];
 
 								echo "
@@ -92,6 +94,7 @@ $user_list = $user->getAll();
 										<td>$first_name</td>
 										<td>$last_name</td>
 										<td>$username</td>
+										<td>$email</td>
 										<td>
 											<a href='/admin/users_edit.php?id=$id'>Edit</a>
 										</td>
