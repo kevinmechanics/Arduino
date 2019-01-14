@@ -1,6 +1,6 @@
 <?php
 $device_id = "DEBUG";
-$data_cat = "temperature";
+$data_cat = "ALL";
 $device_info = array(
 	"device_id"=>"DEBUG",
 	"location"=>"Sample Location",
@@ -153,9 +153,9 @@ var download = (format)=>{
 		enddate = encodeURIComponent(enddate);
 		
 			if(format == "pdf"){
-				 window.open(`http://localhost:8080/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				 window.open(`https://airduino-ph.000webhostapp.com/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			} else {
-				window.open(`http://localhost:8080/export/downloadXlsx.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				window.open(`https://airduino-ph.000webhostapp.com/export/downloadXlsx.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			}
 			
 		
