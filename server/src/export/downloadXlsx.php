@@ -51,7 +51,52 @@ switch($data_cat){
 		}
       		break;
 	default:
-		$a = 1;
+	$data_cat = "ALL";
+		$d_info = array();
+		if(empty($startdate)){
+			$t_info = array_reverse($temperature->getByDeviceId($device_id));
+			$h_info = array_reverse($humidity->getByDeviceId($device_id));
+			$a_info = array_reverse($airquality->getByDeviceId($device_id));
+		} else {
+			$t_info = $temperature->getAllBetween($device_id,$startdate,$enddate);
+			$h_info = $humidity->getAllBetween($device_id,$startdate,$enddate);
+			$a_info = $airquality->getAllBetween($device_id,$startdate,$enddate);
+		}
+		
+		foreach($t_info as $t){
+			$array = array();
+			$timestamp = "";
+			$temperature = "";
+			$humidity = "";
+			$airval = "";
+			$airdesc = "";
+
+			$timestamp = $t['timestamp'];
+			$temperature = $t['value'];
+						
+			foreach($h_info as $h){
+				$h_t = $h['timestamp'];
+				if($h_t == $timestamp) $humidity = $h['value'];
+			}
+						
+			foreach($a_info as $a){
+				$a_t = $a['timestamp'];
+				if($a_t == $timestamp) $airdesc = $a['description'];
+				if($a_t == $timestamp) $airval = $a['value'];
+			}
+			
+			$array = array(
+				"timestamp"=>$timestamp,
+				"temperature"=>$temperature,
+				"humidity"=>$humidity,
+				"airdesc"=>$airdesc,
+				"airval"=>$airval
+			);
+			
+			$d_info[] = $array;
+			
+		}
+	
 		break;
 }
 
@@ -105,8 +150,14 @@ switch($data_cat){
 	default:
 		$writer->writeSheetHeader($data_cat,array(
 			"timestamp"=>"string",
-			"value"=>"string"
+			"temperature"=>"string",
+			"humidity"=>"string",
+			"airdesc"=>"string",
+			"airval"=>"string"
 		));
+		foreach($d_info as $t){
+			$writer->writeSheetRow($data_cat,$t);
+		}
 		break;
 }
 

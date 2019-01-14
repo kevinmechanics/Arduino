@@ -80,7 +80,7 @@ $device_info = $device->getByDeviceId($device_id);
 						<select class="browser-default" id="dataChooser">
 						<?php
 							
-							$data_cat_arr = array("Temperature"=>"temperature","Humidity"=>"humidity","Air Quality"=>"airquality");
+							$data_cat_arr = array("All"=>"ALL","Temperature"=>"temperature","Humidity"=>"humidity","Air Quality"=>"airquality");
 							
 							foreach($data_cat_arr as $key=>$value){
 								if($value == $data_cat){
@@ -153,9 +153,9 @@ var download = (format)=>{
 		enddate = encodeURIComponent(enddate);
 		
 			if(format == "pdf"){
-				 window.open(`http://airduino-ph.000webhostapp.com/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				 window.open(`http://localhost:8080/export/downloadPdf.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			} else {
-				window.open(`http://airduino-ph.000webhostapp.com/export/downloadXlsx.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
+				window.open(`http://localhost:8080/export/downloadXlsx.php?device_id=<?php echo $device_id; ?>&data_cat=${datac}&startdate=${startdate}&enddate=${enddate}`);	
 			}
 			
 		

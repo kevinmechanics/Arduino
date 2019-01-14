@@ -49,9 +49,54 @@ switch($data_cat){
 		} else {
 		  $a_info = $airquality->getAllBetween($device_id,$startdate,$enddate);
 		}
-      		break;
+	 break;
 	default:
-		$a = 1;
+		$data_cat = "ALL";
+		$d_info = array();
+		if(empty($startdate)){
+			$t_info = array_reverse($temperature->getByDeviceId($device_id));
+			$h_info = array_reverse($humidity->getByDeviceId($device_id));
+			$a_info = array_reverse($airquality->getByDeviceId($device_id));
+		} else {
+			$t_info = $temperature->getAllBetween($device_id,$startdate,$enddate);
+			$h_info = $humidity->getAllBetween($device_id,$startdate,$enddate);
+			$a_info = $airquality->getAllBetween($device_id,$startdate,$enddate);
+		}
+		
+		foreach($t_info as $t){
+			$array = array();
+			$timestamp = "";
+			$temperature = "";
+			$humidity = "";
+			$airval = "";
+			$airdesc = "";
+
+			$timestamp = $t['timestamp'];
+			$temperature = $t['value'];
+						
+			foreach($h_info as $h){
+				$h_t = $h['timestamp'];
+				if($h_t == $timestamp) $humidity = $h['value'];
+			}
+						
+			foreach($a_info as $a){
+				$a_t = $a['timestamp'];
+				if($a_t == $timestamp) $airdesc = $a['description'];
+				if($a_t == $timestamp) $airval = $a['value'];
+			}
+			
+			$array = array(
+				"timestamp"=>$timestamp,
+				"temperature"=>$temperature,
+				"humidity"=>$humidity,
+				"airdesc"=>$airdesc,
+				"airval"=>$airval
+			);
+			
+			$d_info[] = $array;
+			
+		}
+		
 		break;
 }
 
@@ -96,7 +141,38 @@ $pdf->SetXY(20,15+$c_y);
 
 $pdf->SetFillColor(25,118,210);
 $pdf->SetTextColor(255,255,255);
-if($data_cat == "airquality"){
+
+if($data_cat == "ALL"){
+	
+	$pdf->Cell(50,7,"Timestamp",1,0,'C',"True");
+	$pdf->Cell(30,7,"Temp.",1,0,'C',"True");
+	$pdf->Cell(30,7,"Humidity",1,0,'C',"True");
+	$pdf->Cell(40,7,"AirDesc",1,0,'C',"True");
+	$pdf->Cell(30,7,"AirVal",1,0,'C',"True");
+	
+	$pdf->SetTextColor(0,0,0);
+	$pdf->SetFillColor(255,255,255);
+	
+	foreach($d_info as $t){
+		$c_y = $pdf->getY();
+	 $pdf->SetXY(20,7+$c_y);
+		
+		$timestamp = $t['timestamp'];
+		$temperature = $t['temperature'];
+		$humidity = $t['humidity'];
+		$airdesc = $t['airdesc'];
+		$airval = $t['airval'];
+		
+		$pdf->Cell(50,7,$timestamp,1,0,'L');
+		$pdf->Cell(30,7,$temperature,1,0,'L');
+		$pdf->Cell(30,7,$humidity,1,0,'L');
+		$pdf->Cell(40,7,$airdesc,1,0,'L');
+		$pdf->Cell(30,7,$airval,1,0,'L');
+		
+	}
+	
+} else {
+	if($data_cat == "airquality"){
 	
 	$pdf->Cell(80,7,"Timestamp",1,0,'C',"True");
 	$pdf->Cell(60,7,"Description",1,0,'C',"True");
@@ -143,6 +219,9 @@ if($data_cat == "airquality"){
 		
 	}
 }
+	
+}
+
 
 $pdf->Output('',$title.".pdf",true);
 ob_flush();

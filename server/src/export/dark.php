@@ -86,7 +86,7 @@ $device_info = $device->getByDeviceId($device_id);
 						<select class="browser-default" id="dataChooser">
 						<?php
 							
-							$data_cat_arr = array("Temperature"=>"temperature","Humidity"=>"humidity","Air Quality"=>"airquality");
+							$data_cat_arr = array("All"=>"ALL","Temperature"=>"temperature","Humidity"=>"humidity","Air Quality"=>"airquality");
 							
 							foreach($data_cat_arr as $key=>$value){
 								if($value == $data_cat){
