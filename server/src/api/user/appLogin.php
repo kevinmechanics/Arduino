@@ -1,6 +1,6 @@
 <?php
 
-if($_SERVER['HTTP_USER_AGENT'] !== "airduino-ph-android-app") die("App Version not supported");
+//if($_SERVER['HTTP_USER_AGENT'] !== "airduino-ph-android-app") die("App Version not supported");
 
 require_once("../../_system/keys.php");
 require_once("../../_system/db.php");
@@ -29,11 +29,19 @@ if($result == True){
             "messsage"=>"Cannot sign you in"
         );
     } else {
-        $response = array(
-            "code"=>"200",
-            "message"=>"User is logged in successfully",
-            "UserAccount"=>$UserAccount
-        );
+        if($result !== True){
+            $response = array(
+                "code"=>"500",
+                "message"=>$result
+            );    
+        } else {
+            $response = array(
+                "code"=>"200",
+                "message"=>"User is logged in successfully",
+                "UserAccount"=>$UserAccount
+            );  
+        }
+        
     
     }
 
